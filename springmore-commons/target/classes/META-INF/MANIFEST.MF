@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Implementation-Title: springmore :: Module :: commons
+Implementation-Version: 1.0.0-SNAPSHOT
+Implementation-Vendor-Id: io.springmore
+Build-Jdk: 1.6.0_45
+Built-By: bypay
+Created-By: Maven Integration for Eclipse
+
