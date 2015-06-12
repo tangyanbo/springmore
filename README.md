@@ -1,31 +1,47 @@
-<ul>
-<li>springmore-commons组件</li>
-这是一个工具类库<br>
-包含如下功能：<br>
-org.springmore.commons.codec<br>
-Base64.java Base64编码与解码<br>
-</ul>
+<div>
+	<h1>springmore-commons组件</h1>
+	这是一个工具类库 包含如下功能：
 
-org.springmore.commons.io<br>
-ExcelUtil excel文件读写<br>
-FileUtil 文件读写<br>
-FTPUtil ftp操作<br>
-ResourceUtil<br>
-XMLUtil dom4j jaxb封装<br>
-ImageUtil 图片缩放，切割封装<br>
+	
+	<pre>
+<strong>org.springmore.commons.codec:</strong>
+Base64.java Base64编码与解码
+	</pre>
+</div>
+<div>	
+	<pre>
+<strong>org.springmore.commons.io:</strong>
+ExcelUtil excel文件读写
+FileUtil 文件读写
+FTPUtil ftp操作
+ResourceUtil
+XMLUtil dom4j jaxb封装
+ImageUtil 图片缩放，切割封装
+</pre>
+</div>
 
-org.springmore.commons.lang<br>
-ArrayUtil<br>
-HexUtil 字符字节十六进制转换<br>
-StringUtil<br>
-DateUtil<br>
+<div>
+<pre>
+<strong>org.springmore.commons.lang</strong>
+ArrayUtil
+HexUtil 字符字节十六进制转换
+StringUtil
+DateUtil
+</pre>
+</div>
 
-org.springmore.commons.security<br>
-DESedeUtil 3des加密<br>
-DESUtil 单des加密<br>
-Md5Util md5加密<br>
-RSAUtil rsa加密<br>
+<div>
+<pre>
+<strong>org.springmore.commons.security</strong>
+DESedeUtil 3des加密
+DESUtil 单des加密
+Md5Util md5加密
+RSAUtil rsa加密
+</pre>
+</div>
 
-org.springmore.commons.web<br>
-HttpClientUtil http https封装<br>
-WebUtil servlet发送response信息封装，发送json字符串封装<br>
+<pre>
+<strong>org.springmore.commons.web</strong>
+HttpClientUtil http https封装
+WebUtil servlet发送response信息封装，发送json字符串封装
+</pre>
