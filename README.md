@@ -1,21 +1,17 @@
-###springmore-commons组件
-##这是一个工具类库 包含如下功能
+##springmore-commons组件
+*这是一个工具类库 包含如下功能:
 
 	
 
-<strong>org.springmore.commons.codec:</strong>
-<p>Base64.java Base64编码与解码</p>
-
-
-<div>	
-
-<strong>org.springmore.commons.io:</strong>
-<p>ExcelUtil excel文件读写</p>
-<p>FileUtil 文件读写</p>
-<p>FTPUtil ftp操作</p>
-<p>ResourceUtil</p>
-<p>XMLUtil dom4j jaxb封装</p>
-<p>ImageUtil 图片缩放，切割封装</p>
+####org.springmore.commons.codec:
+*Base64.java Base64编码与解码
+####org.springmore.commons.io:
+*ExcelUtil excel文件读写
+*FileUtil 文件读写
+*FTPUtil ftp操作
+*ResourceUtil
+*XMLUtil dom4j jaxb封装
+*ImageUtil 图片缩放，切割封装
 
 </div>
 
