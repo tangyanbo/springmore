@@ -14,7 +14,7 @@ jedisTemplate = new JedisTemplate(jedisPool);
 ```
 调用方法：JedisTemplate负责对Jedis连接的获取与归还
 ```java
-	jedisTemplate.set("key", "value");
+jedisTemplate.set("key", "value");
 ```
 
 JedisShardedTemplate代码示例(用于分布式部署的redis)
@@ -30,7 +30,7 @@ jedisTemplate = new JedisShardedTemplate(new JedisPool[] { jedisPool1, jedisPool
 
 调用方法
 ```java
-	jedisTemplate.set("key", "value");
+jedisTemplate.set("key", "value");
 ```
 * * * 
 ## springmore-commons组件
