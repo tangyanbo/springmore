@@ -8,6 +8,7 @@ import java.util.Date;
 import org.junit.Test;
 import org.springmore.commons.lang.time.DateUtil;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.math.NumberUtils;
 public class DateUtilTest {
 
 	@Test

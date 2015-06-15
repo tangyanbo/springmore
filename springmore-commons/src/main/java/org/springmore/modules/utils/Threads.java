@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
+//import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 /**
  * 线程相关工具类.
@@ -47,9 +47,9 @@ public class Threads {
 	 * 创建ThreadFactory，使得创建的线程有自己的名字而不是默认的"pool-x-thread-y"，
 	 * 在用threaddump查看线程时特别有用。 格式如"mythread-%d"，使用了Guava的工具类
 	 */
-	public static ThreadFactory buildJobFactory(String nameFormat) {
+	/*public static ThreadFactory buildJobFactory(String nameFormat) {
 		return new ThreadFactoryBuilder().setNameFormat(nameFormat).build();
-	}
+	}*/
 
 	/**
 	 * 按照ExecutorService JavaDoc示例代码编写的Graceful Shutdown方法.
