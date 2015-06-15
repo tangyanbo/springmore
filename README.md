@@ -32,7 +32,7 @@ jedisTemplate = new JedisShardedTemplate(new JedisPool[] { jedisPool1, jedisPool
 ```java
 	jedisTemplate.set("key", "value");
 ```
-- - - 
+* * * 
 ## springmore-commons组件
 * 这是一个工具类库 包含如下功能:
 
