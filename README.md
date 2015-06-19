@@ -237,6 +237,50 @@ jedisTemplate.set("key", "value");
 ## springmore-commons组件
 * [点击查看详细文档](https://github.com/tangyanbo/springmore/tree/master/文档/springmore-commons/详细说明.md)
 * 这是一个工具类库 包含如下功能:
+## HttpClientUtil
+功能：http以及https 
+基于最新的httpcomponents包实现
+get请求，返回String报文，返回的报文默认是UTF-8编码
+如果需要制定编码，可传入编码参数
+```java
+@Test
+public void testDoGetStringString() throws Exception {
+	String doGet = HttpClientUtil.get("http://localhost:8888/login/");
+	String doGet2 = HttpClientUtil.get("http://localhost:8888/login/",HttpClientUtil.UTF_8);
+	System.out.println(doGet);
+}	
+```
+post请求,可以制定编码
+```java
+@Test
+public void testDoPost() throws Exception {
+	List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+    nvps.add(new BasicNameValuePair("user.userName", "哈哈"));
+	String doGet = HttpClientUtil.post("http://localhost:8888/login/login!login.ac",nvps);
+	System.out.println(doGet);
+}
+```
+
+ssl请求
+```java
+@Test
+public void testSSL() throws Exception {
+	String doGet = HttpClientUtil.getSSL("https://www.baidu.com", "utf-8");
+	List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+    nvps.add(new BasicNameValuePair("user.userName", "哈哈"));
+	String post = HttpClientUtil.postSSL("https://www.baidu.com", nvps,"utf-8");
+	System.out.println(post);
+}	
+```
+
+文件上传和下载
+```java
+@Test
+public void getFile() throws Exception{
+	HttpClientUtil.getFile("http://localhost:8888/login/login!login.ac");
+	HttpClientUtil.postFile("http://localhost:8888/login/login!login.ac", "fileName", new File("d:/test.txt"));
+}
+```
 
 #### org.springmore.commons.codec:
 * Base64.java Base64编码与解码
