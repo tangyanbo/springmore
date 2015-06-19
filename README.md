@@ -1,18 +1,18 @@
 ## springmore-core
-* spring+ibatis实现读写分离
-* 特点
+** spring+ibatis实现读写分离
+** 特点
 无缝结合spring+ibatis，对于程序员来说，是透明的 
 除了修改配置信息之外，程序的代码不需要修改任何东西
 支持spring的容器事务
 
-* 规则：
-* 基于spring配置的容器事务
+** 规则：
+** 基于spring配置的容器事务
 1. 读写事务到主库
 2. 只读事务到从库
 3. 如果没有配置事务，更新语句全部到主库，查询语句均衡到从库
 
-* 快速入门
-* maven依赖
+** 快速入门
+maven依赖
 ``` xml
 <dependency>
 	<groupId>org.springmore</groupId>
