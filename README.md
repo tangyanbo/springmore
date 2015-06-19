@@ -236,7 +236,8 @@ jedisTemplate.set("key", "value");
 
 ## springmore-commons组件
 * [点击查看详细文档](https://github.com/tangyanbo/springmore/tree/master/文档/springmore-commons/详细说明.md)
-* 这是一个工具类库 包含如下功能:
+* 这是一个工具类库 包含如下功能
+
 ## HttpClientUtil
 功能：http以及https 
 基于最新的httpcomponents包实现
