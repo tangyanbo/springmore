@@ -12,7 +12,7 @@
 3.	如果没有配置事务，更新语句全部到主库，查询语句均衡到从库
 
 * 快速入门
-maven依赖
+* maven依赖
 ``` xml
 <dependency>
 	<groupId>org.springmore</groupId>
