@@ -1,0 +1,162 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.springmore</groupId>
+	<artifactId>springmore-core</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0.0</version>
+	<name>springmore-core Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<struts2.version>2.3.16.3</struts2.version>
+		<junit.version>4.11</junit.version>
+		<spring.version>3.2.5.RELEASE</spring.version>
+		<mybatis.version>3.2.7</mybatis.version>
+		<mybatis-spring.version>1.2.2</mybatis-spring.version>
+		<druid.version>1.0.2</druid.version>
+		<aspectjweaver.version>1.6.8_2</aspectjweaver.version>
+		<dubbo.version>2.5.3</dubbo.version>
+		<validation-api.version>1.0.0.GA</validation-api.version>
+		<hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
+		<mysql.driver.version>5.1.29</mysql.driver.version>
+		<zookeeper.version>3.3.3</zookeeper.version>
+		<zkclient.version>0.1</zkclient.version>
+		<minaAsyncHttp.version>1.0.0</minaAsyncHttp.version>
+		<dom4j.version>1.6</dom4j.version>
+		<mina-core.version>2.0.7</mina-core.version>
+		<org.apache.commons.codec.version>1.6</org.apache.commons.codec.version>
+		<struts2.version>2.3.16.3</struts2.version>
+	</properties>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.driver.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis-spring.version}</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>3.1.4.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.6.0</version>
+			<type>jar</type>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>springmore-core</finalName>
+		<plugins>
+			<!-- 测试插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<!-- true:跳过测试 -->
+					<skip>true</skip>
+					<!-- 解决测试乱码问题 -->
+					<forkMode>once</forkMode>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

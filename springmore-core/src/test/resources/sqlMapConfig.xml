@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+   PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"  
+"http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+	<!-- could be omitted in sake of defaults -->
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="aggressiveLazyLoading" value="false" />
+		<setting name="autoMappingBehavior" value="FULL" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+	</settings>
+	<mappers>
+		<mapper resource="org/springmore/core/dao/mapper/UserMapper.xml" />
+	</mappers>
+
+</configuration>
