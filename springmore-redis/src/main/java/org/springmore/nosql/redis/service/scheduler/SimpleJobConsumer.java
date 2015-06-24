@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springmore.modules.utils.Threads;
+import org.springmore.commons.utils.Threads;
 import org.springmore.nosql.redis.JedisTemplate;
 import org.springmore.nosql.redis.JedisTemplate.JedisAction;
 import org.springmore.nosql.redis.pool.JedisPool;

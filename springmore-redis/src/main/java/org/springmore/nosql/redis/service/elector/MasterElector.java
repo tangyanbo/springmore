@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springmore.modules.utils.Threads;
-import org.springmore.modules.utils.Threads.WrapExceptionRunnable;
+import org.springmore.commons.utils.Threads;
+import org.springmore.commons.utils.Threads.WrapExceptionRunnable;
 import org.springmore.nosql.redis.JedisTemplate;
 import org.springmore.nosql.redis.JedisUtils;
 import org.springmore.nosql.redis.JedisTemplate.JedisActionNoResult;

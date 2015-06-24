@@ -2,7 +2,7 @@ package org.springmore.nosql.redis.service.scheduler;
 
 import java.util.List;
 
-import org.springmore.modules.utils.Threads;
+import org.springmore.commons.utils.Threads;
 import org.springmore.nosql.redis.JedisScriptExecutor;
 import org.springmore.nosql.redis.JedisTemplate;
 import org.springmore.nosql.redis.pool.JedisPool;

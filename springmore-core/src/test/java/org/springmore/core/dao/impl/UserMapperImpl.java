@@ -14,9 +14,6 @@ public class UserMapperImpl implements UserMapper{
 	
 	@Autowired
 	private DynamicSqlSessionTemplate sqlSessionTemplate;
-	
-	/*@Autowired
-	private SqlSessionTemplate sqlSessionTemplate;*/
 
 	public List<User> selectByUserNameAndPwd(User user) {
 		return sqlSessionTemplate.selectList("selectByUserNameAndPwd", user);

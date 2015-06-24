@@ -32,7 +32,9 @@ import org.apache.http.util.EntityUtils;
  */
 public class HttpClientUtil {
 
-	private static final String UTF_8 = "utf-8";
+	public static final String UTF_8 = "utf-8";
+	
+	public static final String GBK = "gbk";
 	
 	/**
 	 * 连接超时时间

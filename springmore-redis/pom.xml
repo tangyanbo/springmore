@@ -79,14 +79,7 @@
 			<version>1.0.2</version>
 		</dependency>
 		
-		<parent>
-		
-		
-	</parent>
-	<artifactId>springmore-commons</artifactId>
 
-		<!-- <dependency> <groupId>com.lordofthejars</groupId> <artifactId>nosqlunit-redis</artifactId> 
-			</dependency> -->
 	</dependencies>
 
 	<dependencyManagement>

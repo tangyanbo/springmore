@@ -44,7 +44,9 @@ public class DynamicDataSource extends AbstractRoutingDataSource{
 	}
 
 	/**
+	 * 根据标识
 	 * 获取数据源
+	 * 
 	 */
 	@Override
 	protected DataSource determineTargetDataSource() {
@@ -65,7 +67,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource{
 		if(returnDataSource instanceof ComboPooledDataSource){
 			ComboPooledDataSource source = (ComboPooledDataSource)returnDataSource;
 			String jdbcUrl = source.getJdbcUrl();
-			log.info("jdbcUrl:" + jdbcUrl);
+			log.debug("jdbcUrl:" + jdbcUrl);
 		}		
 		return returnDataSource;
 	}
@@ -87,15 +89,4 @@ public class DynamicDataSource extends AbstractRoutingDataSource{
 	}
 	
 	
-
-	public static void main(String[] args) {
-		AtomicInteger counter = new AtomicInteger();
-		long a = System.currentTimeMillis();
-		for(int i=0;i<1000000;i++){
-			counter.incrementAndGet();
-		}
-		long b = System.currentTimeMillis();
-		System.out.println(b-a);
-		System.out.println(counter.get());
-	}
 }
