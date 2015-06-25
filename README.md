@@ -28,13 +28,13 @@
 1. 使客户端调用更加简单
 如：JedisTemplate负责对Jedis连接的获取与归还
 2. 分布式JedisShardedTemplate改用一致性哈希算法存取
-* [springmore-redis快速入门](https://github.com/tangyanbo/springmore/tree/master/文档/springmore-redis.md)
+* [springmore-redis快速入门](文档/springmore-redis.md)
 
 
 ## springmore-commons组件
 这是一个工具类库 包含如下功能
 
-* [springmore-commons快速入门](https://github.com/tangyanbo/springmore/tree/master/文档/springmore-commons/详细说明.md)
+* [springmore-commons快速入门](文档/springmore-commons/详细说明.md)
 * [FTP+SFTP工具类封装-springmore让开发更简单](http://www.cnblogs.com/tangyanbo/p/4600105.html)
 
 ## HttpClientUtil
