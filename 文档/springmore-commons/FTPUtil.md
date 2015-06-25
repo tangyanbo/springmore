@@ -40,9 +40,9 @@ ftpUtil.download();
 
 自定义设置ftp连接配置文件路径
 ``` java
-	//示例1
-	FTPUtil ftpUtil = new FTPUtil("ftpConfig.properties");
-	//示例2
-	Properties properties = PropertiesUtil.getProperties("ftpConfig.properties");
-	FTPUtil ftpUtil = new FTPUtil(properties);
+//示例1
+FTPUtil ftpUtil = new FTPUtil("ftpConfig.properties");
+//示例2
+Properties properties = PropertiesUtil.getProperties("ftpConfig.properties");
+FTPUtil ftpUtil = new FTPUtil(properties);
 ```
