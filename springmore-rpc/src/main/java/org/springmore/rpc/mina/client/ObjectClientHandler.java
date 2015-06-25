@@ -5,6 +5,8 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springmore.rpc.mina.client.lc.syn.LongConnectFactory;
+import org.springmore.rpc.mina.client.sc.ShortConnectFactory;
 
 public class ObjectClientHandler extends IoHandlerAdapter {
 	
@@ -42,6 +44,10 @@ public class ObjectClientHandler extends IoHandlerAdapter {
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
 		Result result = (Result)session.getAttribute(Result.SESSION_KEY);
+		ConnectFactory connectFactory = result.getConnectFactory();
+		if (connectFactory instanceof ShortConnectFactory) {
+			session.close(true);
+		}
 		result.set(message);
 	}
 

@@ -122,4 +122,10 @@ public class Result<T> {
 		this.connection = connection;
 	}
 
+	public ConnectFactory getConnectFactory() {
+		return connectFactory;
+	}
+	
+	
+
 }

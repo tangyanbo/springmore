@@ -30,7 +30,7 @@ public class MinaClientTest {
 	@Test
 	public void 发送字符串() throws InterruptedException {
 		
-		String s = minaTemplate.sengObject("xxx\nxx");
+		String s = minaTemplate.sengObject("xxx");
 		System.out.println(s);
 
 	}

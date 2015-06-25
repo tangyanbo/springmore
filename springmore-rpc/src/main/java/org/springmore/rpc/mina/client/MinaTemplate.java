@@ -15,7 +15,7 @@ public class MinaTemplate {
 	/**
 	 * conncet factory
 	 */
-	private LongConnectFactory connectFactory;
+	private ConnectFactory connectFactory;
 	
 	/**
 	 * 同步传输对象
@@ -27,8 +27,10 @@ public class MinaTemplate {
 	 */
 	public <T> T sengObject(T message) throws InterruptedException{
 		Result<T> result = new Result<T>();
+		result.setConnectFactory(connectFactory);		
 		//获取tcp连接
 		ConnectFuture connection = connectFactory.getConnection();
+		result.setConnection(connection);
 		IoSession session = connection.getSession();
 		session.setAttribute(Result.SESSION_KEY, result);
 		//发送信息
@@ -45,7 +47,7 @@ public class MinaTemplate {
 		return returnMsg;
 	}
 	
-	public void setConnectFactory(LongConnectFactory connectFactory) {
+	public void setConnectFactory(ConnectFactory connectFactory) {
 		this.connectFactory = connectFactory;
 	}
 	
