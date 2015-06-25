@@ -197,7 +197,8 @@ public class MathUtil {
     public static void main(String[] args) {  
        // String s = "1.4+2*32/(3-2.1)";
         String s = "2048*2048";
-        sizeyunsuan(s);  
+        String evaluate = evaluate(s);  
+        System.out.println(evaluate);
     }  
   
 }   
