@@ -1,4 +1,4 @@
-package org.springmore.rpc.mina.client.syn;
+package org.springmore.rpc.mina.client;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
@@ -42,7 +42,7 @@ public class ObjectClientHandler extends IoHandlerAdapter {
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
 		Result result = (Result)session.getAttribute(Result.SESSION_KEY);
-		result.synSet(message);
+		result.set(message);
 	}
 
 	

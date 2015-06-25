@@ -1,47 +1,26 @@
-package org.springmore.rpc.mina.client.syn;
+package org.springmore.rpc.mina.client.sc;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
-import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
-import org.springframework.beans.factory.InitializingBean;
 import org.springmore.commons.lang.MathUtil;
+import org.springmore.rpc.mina.client.ConnectFactory;
+import org.springmore.rpc.mina.client.ObjectClientHandler;
 
 
 /**
- * 连接Factory.
+ * 短连接Factory.
  * 通过spring初始化
  * @author 唐延波
  * @date 2014-8-26
  */
-public class ConnectFutureFactory implements InitializingBean{
-	
-	/**
-	 * 空闲连接池
-	 */
-	private final BlockingQueue<ConnectFuture> idlePool = new LinkedBlockingQueue<ConnectFuture>();
-	
-	/**
-	 * 使用中的连接池
-	 */
-	private final BlockingQueue<ConnectFuture> activePool = new LinkedBlockingQueue<ConnectFuture>();
-	
-
-	/**
-	 * 连接池默认初始化连接数量
-	 */
-	private final static int DEFAULT_POOL_SIZE = 10;
-	
+public class ShortConnectFactory implements ConnectFactory{
+		
 	private IoConnector connector;
-	
-	private int poolSize = DEFAULT_POOL_SIZE;
 	
 	private String host;
 	
@@ -59,15 +38,11 @@ public class ConnectFutureFactory implements InitializingBean{
 	 */
 	private ProtocolCodecFactory protocolCodecFactory;
 	
-	private ConnectFutureFactory(){
+	private ShortConnectFactory(){
 		
 	}
 	
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
-	}
-		
+			
 	/**
 	 * 初始化
 	 * 
@@ -86,33 +61,15 @@ public class ConnectFutureFactory implements InitializingBean{
 			connector.getFilterChain().addLast("codec",
 					new ProtocolCodecFilter(protocolCodecFactory));
 		}		
-		ObjectClientHandler clientHandler = new ObjectClientHandler();
-		
+		ObjectClientHandler clientHandler = new ObjectClientHandler();		
 		connector.setHandler(clientHandler);
-		initConnection(poolSize);
 	}
 	
-	/**
-	 * 初始化连接
-	 * @param size
-	 * @author 唐延波
-	 * @date 2015-6-24
-	 */
-	private void initConnection(int size) {
-		for (int i = 0; i < size; i++) {
-			// 连接服务端
-			ConnectFuture connection = connector.connect(new InetSocketAddress(
-					host, port));
-			// 等待建立连接
-			connection.awaitUninterruptibly();
-			try {
-				idlePool.put(connection);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
 	}
-	
+		
 
 	/**
 	 * 获取连接
@@ -123,9 +80,12 @@ public class ConnectFutureFactory implements InitializingBean{
 	 * @return
 	 * @throws InterruptedException 
 	 */
+	@Override
 	public ConnectFuture getConnection() throws InterruptedException {
-		ConnectFuture connection = idlePool.take();			
-		activePool.add(connection);
+		// 连接服务端
+		ConnectFuture connection = connector.connect(new InetSocketAddress(host, port));
+		// 等待建立连接
+		connection.awaitUninterruptibly();
 		return connection;
 	}
 	
@@ -138,9 +98,9 @@ public class ConnectFutureFactory implements InitializingBean{
 	 * @author 唐延波
 	 * @date 2015-6-24
 	 */
+	@Override
 	public void close(ConnectFuture connection) throws InterruptedException{
-		activePool.remove(connection);		
-		idlePool.put(connection);
+		connection.getSession().getCloseFuture().awaitUninterruptibly();
 	}
 	
 	/**
@@ -149,30 +109,32 @@ public class ConnectFutureFactory implements InitializingBean{
 	 * @author 唐延波
 	 * @date 2015-6-24
 	 */
+	@Override
 	public void shutdown(){
 		connector.dispose();
 	}
 
-	public void setPoolSize(int poolSize) {
-		this.poolSize = poolSize;
-	}
-
+	@Override
 	public void setHost(String host) {
 		this.host = host;
 	}
 
+	@Override
 	public void setPort(int port) {
 		this.port = port;
 	}
 
+	@Override
 	public void setConnectTimeoutMillis(long connectTimeoutMillis) {
 		this.connectTimeoutMillis = connectTimeoutMillis;
 	}
 
+	@Override
 	public void setProtocolCodecFactory(ProtocolCodecFactory protocolCodecFactory) {
 		this.protocolCodecFactory = protocolCodecFactory;
 	}
 
+	@Override
 	public void setReadBufferSize(String readBufferSize) {
 		this.readBufferSize = new Double(MathUtil.evaluate(readBufferSize)).intValue();
 	}
