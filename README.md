@@ -20,7 +20,7 @@
  3. 只读事务到从库
  4. 如果没有配置事务，更新语句全部到主库，查询语句均衡到从库
 
-* [springmore-core快速入门](https://github.com/tangyanbo/springmore/tree/master/文档/springmore-core.md)
+* [springmore-core快速入门](tree/master/文档/springmore-core.md)
 
 
 ## springmore-redis组件
