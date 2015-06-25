@@ -4,10 +4,6 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.commons.jexl.Expression;
-import org.apache.commons.jexl.ExpressionFactory;
-import org.apache.commons.jexl.JexlContext;
-import org.apache.commons.jexl.JexlHelper;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
@@ -85,12 +81,11 @@ public class ConnectFutureFactory implements InitializingBean{
 		connector.getFilterChain().addLast("logger", new LoggingFilter());
 		//设置读缓冲,传输的内容必须小于此缓冲
 		connector.getSessionConfig().setReadBufferSize(readBufferSize);
-		// 设置解码器为对象解码器
-		if(protocolCodecFactory == null){
-			protocolCodecFactory = new ObjectSerializationCodecFactory();
-		}
-		connector.getFilterChain().addLast("codec",
-				new ProtocolCodecFilter(protocolCodecFactory));
+		
+		if(protocolCodecFactory != null){
+			connector.getFilterChain().addLast("codec",
+					new ProtocolCodecFilter(protocolCodecFactory));
+		}		
 		ObjectClientHandler clientHandler = new ObjectClientHandler();
 		
 		connector.setHandler(clientHandler);
@@ -179,7 +174,7 @@ public class ConnectFutureFactory implements InitializingBean{
 	}
 
 	public void setReadBufferSize(String readBufferSize) {
-		this.readBufferSize = Integer.parseInt(MathUtil.evaluate(readBufferSize));
+		this.readBufferSize = new Double(MathUtil.evaluate(readBufferSize)).intValue();
 	}
 	
 	

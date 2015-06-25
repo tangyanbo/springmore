@@ -18,7 +18,7 @@ public class MinaClientTest {
 	}
 
 	@Test
-	public void testSengObject() throws InterruptedException {
+	public void 发送对象() throws InterruptedException {
 		User user = new User();
 		user.setUserId(10);
 		User user2 = minaTemplate.sengObject(user);
@@ -27,7 +27,7 @@ public class MinaClientTest {
 	}
 	
 	@Test
-	public void testSengString() throws InterruptedException {
+	public void 发送字符串() throws InterruptedException {
 		
 		String s = minaTemplate.sengObject("xxx\nxx");
 		System.out.println(s);
@@ -35,10 +35,11 @@ public class MinaClientTest {
 	}
 	
 	@Test
-	public void testSengByte() throws InterruptedException {
+	public void 发送字节() throws InterruptedException {
 		
-		byte[] s = minaTemplate.sengObject("xxx\nxx".getBytes());
+		byte[] s = minaTemplate.sengObject("fff".getBytes());
 		System.out.println(new String(s));
+		System.out.println(s);
 
 	}
 
