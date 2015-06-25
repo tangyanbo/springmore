@@ -1,4 +1,11 @@
-springmore讨论qq群：261502547
+## 概述
+* 核心意义
+ 1. 提供一个项目框架：spring+mybatis+springMVC
+ 2. 提供最佳项目示例(工作中常见的功能)
+ 3. 封装一般工具类如FileUtil,DateUtil,StringUtil,FTPUtil等
+ 4. 封装复杂组件，如redis,mina,netty
+ 
+ 欢迎加入springmore讨论qq群：261502547
 ## springmore-core组件
 #### spring+ibatis实现读写分离
 * 特点
