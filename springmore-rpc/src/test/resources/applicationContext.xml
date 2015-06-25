@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		">
+		
+	<bean id="objectSerializationCodecFactory" class="org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory">
+		
+	</bean>
+	
+	<bean id="textLineCodecFactory" class="org.springmore.rpc.mina.codec.NewTextLineCodecFactory">
+		<constructor-arg index="0" value="UTF-8"></constructor-arg>
+	</bean>
+			
+	<bean id="connectFactory" class="org.springmore.rpc.mina.client.syn.ConnectFutureFactory">
+		<property name="poolSize">
+			<value>10</value>
+		</property>
+		<property name="host">
+			<value>localhost</value>
+		</property>
+		<property name="port">
+			<value>18886</value>
+		</property>
+		<property name="connectTimeoutMillis">
+			<value>30000</value>
+		</property>
+		<property name="readBufferSize">
+			<value>2048*2048</value>
+		</property>
+		<property name="protocolCodecFactory" ref="textLineCodecFactory"/>
+	</bean>
+	
+	<bean id="minaTemplate" class="org.springmore.rpc.mina.client.syn.MinaTemplate">
+		<property name="connectFactory" ref="connectFactory"></property>
+	</bean>
+
+</beans>

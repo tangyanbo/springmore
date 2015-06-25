@@ -69,5 +69,4 @@ public class StringUtil extends StringUtils {
     public static boolean isBlank(final CharSequence cs) {
     	return StringUtils.isBlank(cs);
     }
-	
 }
