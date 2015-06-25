@@ -193,6 +193,7 @@ public class SFTPUtil {
 	public void download(){
 		FileOutputStream output = null;
 		try {
+			this.connect();
 			if(!StringUtil.isEmpty(remotePath)){
 				sftp.cd(remotePath);
 			}

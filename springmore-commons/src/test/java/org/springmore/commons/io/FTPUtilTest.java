@@ -70,11 +70,5 @@ public class FTPUtilTest {
 		ftpUtil.upload();
 	}
 	
-	@Test
-	public void test() throws SocketException, IOException{
-		FTPSClient ftps = new FTPSClient("SSL");
-		ftps.setTrustManager(null);
-		ftps.connect("192.168.1.226", 22);
-		ftps.login("root", "centos");
-	}
+	
 }
