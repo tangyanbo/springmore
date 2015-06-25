@@ -6,6 +6,7 @@
  4. 封装复杂组件，如redis,mina,netty
  
  欢迎加入springmore讨论qq群：261502547
+ 
 ## springmore-core组件
 #### spring+ibatis实现读写分离
 * 特点
