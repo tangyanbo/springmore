@@ -150,7 +150,7 @@ public class LongAsynConnectFactory implements ConnectFactory{
 	 */
 	@Override
 	public void close(ConnectFuture connection) throws InterruptedException{
-		connection.getSession().getCloseFuture().awaitUninterruptibly();
+		//connection.getSession().getCloseFuture().awaitUninterruptibly();
 	}
 	
 	/**

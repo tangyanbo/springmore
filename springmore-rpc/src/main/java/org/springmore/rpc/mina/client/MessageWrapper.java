@@ -6,7 +6,7 @@ package org.springmore.rpc.mina.client;
  * @author 唐延波
  * @date 2015年6月26日
  */
-public class MessageWrapper{
+public class MessageWrapper implements java.io.Serializable{
 
 	private long id;
 

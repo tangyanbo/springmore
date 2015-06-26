@@ -1,4 +1,4 @@
-package org.springmore.rpc.mina.client.syn;
+package org.springmore.rpc.mina.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,22 +10,24 @@ import java.util.concurrent.Executors;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
+import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.filter.executor.ExecutorFilter;
 import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 
 
-public class TextLineServer {
+public class MinaServer {
 
 	private IoAcceptor acceptor ;
 	
-	public TextLineServer() {
+	public MinaServer() {
 		acceptor = new NioSocketAcceptor();
 		//设置日志过滤器
 		acceptor.getFilterChain().addLast("logger", new LoggingFilter());
-		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new TextLineCodecFactory(Charset
-				.forName("UTF-8"))));
+		//设置编码器
+		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
+		
 		
 		acceptor.getFilterChain().addLast("threadPool",new ExecutorFilter(Executors.newCachedThreadPool()));
 		//设置读缓冲
@@ -49,7 +51,7 @@ public class TextLineServer {
 	}
 	
 	public static void main(String[] args) {
-		TextLineServer server = new TextLineServer();
+		MinaServer server = new MinaServer();
 		
 	}
 }

@@ -1,10 +1,11 @@
-package org.springmore.rpc.mina.client.syn;
+package org.springmore.rpc.mina.client;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springmore.rpc.mina.client.MinaTemplate;
+import org.springmore.rpc.mina.server.User;
 
 
 public class MinaClientTest {

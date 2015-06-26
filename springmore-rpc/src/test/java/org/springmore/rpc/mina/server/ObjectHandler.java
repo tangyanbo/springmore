@@ -1,4 +1,4 @@
-package org.springmore.rpc.mina.client.syn;
+package org.springmore.rpc.mina.server;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;

@@ -35,7 +35,7 @@ public class MinaTemplate {
 		Result result = ResultUtil.getResult(connectFactory, connection);
 		IoSession session = connection.getSession();		
 		//发送信息
-		if(result instanceof Result){
+		if(result instanceof AsynResult){
 			ConcurrentHashMap<Long, Result> resultMap = (ConcurrentHashMap<Long, Result>)
 					session.getAttribute(Result.RESULT_MAP);
 			AtomicLong counter = (AtomicLong) session.getAttribute(Result.COUNTER);
@@ -47,9 +47,9 @@ public class MinaTemplate {
 			MessageWrapper wrapper = new MessageWrapper();
 			wrapper.setMessage(message);
 			wrapper.setId(count);
-			session.write(message);			
+			session.write(wrapper);			
 		}else{
-			session.setAttribute(Result.RESULT, this);
+			session.setAttribute(Result.RESULT, result);
 			if(message instanceof byte[]){
 				byte[] msg = ( byte[])message;
 				session.write(IoBuffer.wrap(msg));

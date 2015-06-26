@@ -49,7 +49,9 @@ public abstract class BaseResult implements Result{
 		// 必须要在同步的情况下执行
 		if (!done) {
 			try {
+				System.out.println("wait=======================");
 				wait();
+				System.out.println("wait over =======================");
 			} catch (InterruptedException e) {
 				log.error(e.getMessage(), e);
 			}
@@ -76,6 +78,7 @@ public abstract class BaseResult implements Result{
 	 * @date 2015年6月25日
 	 */
 	protected synchronized void synSet(Object message) {
+		System.out.println("set=======================");
 		this.message = message;
 		this.done = true;
 		notify();

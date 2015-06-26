@@ -1,4 +1,4 @@
-package org.springmore.rpc.mina.client.syn;
+package org.springmore.rpc.mina.server;
 
 import java.nio.ByteBuffer;
 import java.util.Date;

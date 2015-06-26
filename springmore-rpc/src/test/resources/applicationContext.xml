@@ -35,9 +35,28 @@
 		<property name="readBufferSize">
 			<value>2048*2048</value>
 		</property>
-		<property name="protocolCodecFactory" ref="textLineCodecFactory"/>
+		<property name="protocolCodecFactory" ref="objectSerializationCodecFactory"/>
 	</bean>
 	-->	
+	
+	<bean id="aysnlongConnectFactory" class="org.springmore.rpc.mina.client.lc.asyn.LongAsynConnectFactory">
+		<property name="poolSize">
+			<value>10</value>
+		</property>
+		<property name="host">
+			<value>localhost</value>
+		</property>
+		<property name="port">
+			<value>18886</value>
+		</property>
+		<property name="connectTimeoutMillis">
+			<value>30000</value>
+		</property>
+		<property name="readBufferSize">
+			<value>2048*2048</value>
+		</property>
+		<property name="protocolCodecFactory" ref="objectSerializationCodecFactory"/>
+	</bean>
 	
 	<bean id="shortConnectFactory" class="org.springmore.rpc.mina.client.sc.ShortConnectFactory">
 		<property name="host">
@@ -52,11 +71,11 @@
 		<property name="readBufferSize">
 			<value>2048*2048</value>
 		</property>
-		<property name="protocolCodecFactory" ref="textLineCodecFactory"/>
+		<property name="protocolCodecFactory" ref="objectSerializationCodecFactory"/>
 	</bean>
 	
 	<bean id="minaTemplate" class="org.springmore.rpc.mina.client.MinaTemplate">
-		<property name="connectFactory" ref="shortConnectFactory"></property>
+		<property name="connectFactory" ref="aysnlongConnectFactory"></property>
 	</bean>
 
 </beans>
