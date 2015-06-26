@@ -9,7 +9,6 @@ import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.springmore.commons.lang.MathUtil;
 import org.springmore.rpc.mina.client.ConnectFactory;
-import org.springmore.rpc.mina.client.ObjectClientHandler;
 
 
 /**
@@ -61,7 +60,7 @@ public class ShortConnectFactory implements ConnectFactory{
 			connector.getFilterChain().addLast("codec",
 					new ProtocolCodecFilter(protocolCodecFactory));
 		}		
-		ObjectClientHandler clientHandler = new ObjectClientHandler();		
+		ShortClientHandler clientHandler = new ShortClientHandler();		
 		connector.setHandler(clientHandler);
 	}
 	

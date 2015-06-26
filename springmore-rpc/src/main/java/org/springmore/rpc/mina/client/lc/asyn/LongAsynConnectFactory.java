@@ -1,4 +1,4 @@
-package org.springmore.rpc.mina.client.lc.syn;
+package org.springmore.rpc.mina.client.lc.asyn;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.BlockingQueue;
@@ -20,7 +20,7 @@ import org.springmore.rpc.mina.client.ConnectFactory;
  * @author 唐延波
  * @date 2014-8-26
  */
-public class LongConnectFactory implements ConnectFactory{
+public class LongAsynConnectFactory implements ConnectFactory{
 	
 	/**
 	 * 空闲连接池
@@ -58,7 +58,7 @@ public class LongConnectFactory implements ConnectFactory{
 	 */
 	private ProtocolCodecFactory protocolCodecFactory;
 	
-	private LongConnectFactory(){
+	private LongAsynConnectFactory(){
 		
 	}
 	

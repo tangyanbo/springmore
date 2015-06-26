@@ -1,14 +1,13 @@
-package org.springmore.rpc.mina.client;
+package org.springmore.rpc.mina.client.lc.syn;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springmore.rpc.mina.client.lc.syn.LongConnectFactory;
-import org.springmore.rpc.mina.client.sc.ShortConnectFactory;
+import org.springmore.rpc.mina.client.Result;
 
-public class ObjectClientHandler extends IoHandlerAdapter {
+public class LongClientHandler extends IoHandlerAdapter {
 	
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -44,10 +43,6 @@ public class ObjectClientHandler extends IoHandlerAdapter {
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
 		Result result = (Result)session.getAttribute(Result.SESSION_KEY);
-		ConnectFactory connectFactory = result.getConnectFactory();
-		if (connectFactory instanceof ShortConnectFactory) {
-			session.close(true);
-		}
 		result.set(message);
 	}
 
