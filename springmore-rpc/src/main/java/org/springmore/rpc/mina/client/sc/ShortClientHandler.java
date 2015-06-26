@@ -47,7 +47,7 @@ public class ShortClientHandler extends IoHandlerAdapter {
 	@Override
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
-		Result result = (Result)session.getAttribute(Result.SESSION_KEY);
+		Result result = (Result)session.getAttribute(Result.RESULT);
 		session.close(true);
 		result.set(message);
 	}

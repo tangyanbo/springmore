@@ -1,13 +1,21 @@
 package org.springmore.rpc.mina.client.lc.asyn;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springmore.rpc.mina.client.MessageWrapper;
 import org.springmore.rpc.mina.client.Result;
 
-public class LongClientHandler extends IoHandlerAdapter {
+/**
+ * LongAsynClientHandler
+ * @author 唐延波
+ * @date 2015年6月26日
+ */
+public class LongAsynClientHandler extends IoHandlerAdapter {
 	
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -39,11 +47,15 @@ public class LongClientHandler extends IoHandlerAdapter {
 		session.close(true);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
-		Result result = (Result)session.getAttribute(Result.SESSION_KEY);
-		result.set(message);
+		MessageWrapper messageWrapper = (MessageWrapper)message;
+		ConcurrentHashMap<Long, AsynResult> resultMap = (ConcurrentHashMap<Long, AsynResult>)
+				session.getAttribute(Result.RESULT_MAP);
+		AsynResult result = resultMap.remove(messageWrapper.getId());
+		result.set(messageWrapper.getMessage());
 	}
 
 	

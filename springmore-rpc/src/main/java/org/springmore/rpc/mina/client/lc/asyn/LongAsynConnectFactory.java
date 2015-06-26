@@ -1,17 +1,22 @@
 package org.springmore.rpc.mina.client.lc.asyn;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoConnector;
+import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.springmore.commons.lang.MathUtil;
 import org.springmore.rpc.mina.client.ConnectFactory;
+import org.springmore.rpc.mina.client.Result;
 
 
 /**
@@ -23,14 +28,9 @@ import org.springmore.rpc.mina.client.ConnectFactory;
 public class LongAsynConnectFactory implements ConnectFactory{
 	
 	/**
-	 * 空闲连接池
+	 * 连接池
 	 */
-	private final BlockingQueue<ConnectFuture> idlePool = new LinkedBlockingQueue<ConnectFuture>();
-	
-	/**
-	 * 使用中的连接池
-	 */
-	private final BlockingQueue<ConnectFuture> activePool = new LinkedBlockingQueue<ConnectFuture>();
+	private final List<ConnectFuture> connectionPool = new ArrayList<ConnectFuture>();
 	
 
 	/**
@@ -40,6 +40,9 @@ public class LongAsynConnectFactory implements ConnectFactory{
 	
 	private IoConnector connector;
 	
+	/**
+	 * 线程池大小
+	 */
 	private int poolSize = DEFAULT_POOL_SIZE;
 	
 	private String host;
@@ -53,6 +56,8 @@ public class LongAsynConnectFactory implements ConnectFactory{
 	 */
 	private long connectTimeoutMillis;
 	
+	private AtomicInteger counter = new AtomicInteger();
+	
 	/**
 	 * 编码解码工厂
 	 */
@@ -60,9 +65,7 @@ public class LongAsynConnectFactory implements ConnectFactory{
 	
 	private LongAsynConnectFactory(){
 		
-	}
-	
-	
+	}	
 		
 	/**
 	 * 初始化
@@ -82,7 +85,7 @@ public class LongAsynConnectFactory implements ConnectFactory{
 			connector.getFilterChain().addLast("codec",
 					new ProtocolCodecFilter(protocolCodecFactory));
 		}		
-		LongClientHandler clientHandler = new LongClientHandler();
+		LongAsynClientHandler clientHandler = new LongAsynClientHandler();
 		
 		connector.setHandler(clientHandler);
 		initConnection(poolSize);
@@ -101,11 +104,13 @@ public class LongAsynConnectFactory implements ConnectFactory{
 					host, port));
 			// 等待建立连接
 			connection.awaitUninterruptibly();
-			try {
-				idlePool.put(connection);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			IoSession session = connection.getSession();
+			//放入counter				
+			session.setAttribute(Result.COUNTER, new AtomicLong());
+			//放入map
+			ConcurrentHashMap<Long, Result> resultMap = new ConcurrentHashMap<Long, Result>(100,0.75f,16);
+			session.setAttribute(Result.RESULT_MAP, resultMap);
+			connectionPool.add(connection);
 		}
 	}
 	
@@ -125,8 +130,12 @@ public class LongAsynConnectFactory implements ConnectFactory{
 	 */
 	@Override
 	public ConnectFuture getConnection() throws InterruptedException {
-		ConnectFuture connection = idlePool.take();			
-		activePool.add(connection);
+		int count = counter.incrementAndGet();
+		if(count>1000000){
+			counter.set(0);
+		}
+		int index = count%connectionPool.size();
+		ConnectFuture connection = connectionPool.get(index);
 		return connection;
 	}
 	
@@ -141,8 +150,7 @@ public class LongAsynConnectFactory implements ConnectFactory{
 	 */
 	@Override
 	public void close(ConnectFuture connection) throws InterruptedException{
-		activePool.remove(connection);		
-		idlePool.put(connection);
+		connection.getSession().getCloseFuture().awaitUninterruptibly();
 	}
 	
 	/**

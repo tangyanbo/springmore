@@ -42,7 +42,7 @@ public class LongClientHandler extends IoHandlerAdapter {
 	@Override
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
-		Result result = (Result)session.getAttribute(Result.SESSION_KEY);
+		Result result = (Result)session.getAttribute(Result.RESULT);
 		result.set(message);
 	}
 
