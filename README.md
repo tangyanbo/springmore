@@ -30,6 +30,10 @@
 2. 分布式JedisShardedTemplate改用一致性哈希算法存取
 * [springmore-redis快速入门](文档/springmore-redis.md)
 
+## springmore-rpc组件
+* 封装mina客户端
+* 实现mina的短连接通信，长连接同步通信，长连接异步通信
+* [springmore-rpc快速入门](文档/springmore-rpc.md)
 
 ## springmore-commons组件
 这是一个工具类库 包含如下功能
