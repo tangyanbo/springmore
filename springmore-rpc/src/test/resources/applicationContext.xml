@@ -14,6 +14,7 @@
 		
 	</bean>
 	
+	<!-- 传输字符串编码工厂 -->
 	<bean id="textLineCodecFactory" class="org.springmore.rpc.mina.codec.NewTextLineCodecFactory">
 		<constructor-arg index="0" value="UTF-8"></constructor-arg>
 	</bean>
@@ -39,6 +40,7 @@
 	</bean>
 	-->	
 	
+	<!-- 连接工厂 -->
 	<bean id="aysnlongConnectFactory" class="org.springmore.rpc.mina.client.lc.asyn.LongAsynConnectFactory">
 		<property name="poolSize">
 			<value>10</value>
@@ -58,6 +60,7 @@
 		<property name="protocolCodecFactory" ref="objectSerializationCodecFactory"/>
 	</bean>
 	
+	<!-- 短连接工厂 -->
 	<bean id="shortConnectFactory" class="org.springmore.rpc.mina.client.sc.ShortConnectFactory">
 		<property name="host">
 			<value>localhost</value>
@@ -71,11 +74,13 @@
 		<property name="readBufferSize">
 			<value>2048*2048</value>
 		</property>
-		<property name="protocolCodecFactory" ref="objectSerializationCodecFactory"/>
+		<!-- protocolCodecFactory不配置则是字节传输 -->
+		<property name="protocolCodecFactory" ref="textLineCodecFactory"/>
 	</bean>
 	
+	<!-- minaTemplate -->
 	<bean id="minaTemplate" class="org.springmore.rpc.mina.client.MinaTemplate">
-		<property name="connectFactory" ref="aysnlongConnectFactory"></property>
+		<property name="connectFactory" ref="shortConnectFactory"></property>
 	</bean>
 
 </beans>
