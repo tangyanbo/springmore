@@ -85,3 +85,135 @@ public void 发送字符串() throws InterruptedException {
 }
 ```
 
+
+###### 短连接传输自定义对象
+spring配置文件：
+``` xml
+<bean id="objectSerializationCodecFactory" class="org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory">
+		
+</bean>
+<!-- 短连接工厂 -->
+<bean id="shortConnectFactory" class="org.springmore.rpc.mina.client.sc.ShortConnectFactory">
+	<property name="host">
+		<value>localhost</value>
+	</property>
+	<property name="port">
+		<value>18886</value>
+	</property>
+	<property name="connectTimeoutMillis">
+		<value>30000</value>
+	</property>
+	<property name="readBufferSize">
+		<value>2048*2048</value>
+	</property>
+	<!-- protocolCodecFactory不配置则是字节传输 -->
+	<property name="protocolCodecFactory" ref="objectSerializationCodecFactory"/>
+</bean>
+
+<!-- minaTemplate -->
+<bean id="minaTemplate" class="org.springmore.rpc.mina.client.MinaTemplate">
+	<property name="connectFactory" ref="shortConnectFactory"></property>
+</bean>
+```
+java代码示例：
+``` java
+@Autowired
+MinaTemplate minaTemplate;
+@Test
+public void 发送对象() throws InterruptedException {
+	User user = new User();
+	user.setUserId(10);
+	User user2 = minaTemplate.sengObject(user);
+	System.out.println(user2.getUserId());
+}
+```
+
+###### 长连接同步通信
+只有连接工厂配置不一样
+spring配置文件：
+``` xml
+<bean id="objectSerializationCodecFactory" class="org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory">
+		
+</bean>
+<!-- 长连接接工厂 -->
+<bean id="longConnectFactory" class="org.springmore.rpc.mina.client.lc.syn.LongConnectFactory">
+	<property name="poolSize">
+		<value>10</value>
+	</property>
+	<property name="host">
+		<value>localhost</value>
+	</property>
+	<property name="port">
+		<value>18886</value>
+	</property>
+	<property name="connectTimeoutMillis">
+		<value>30000</value>
+	</property>
+	<property name="readBufferSize">
+		<value>2048*2048</value>
+	</property>
+	<property name="protocolCodecFactory" ref="objectSerializationCodecFactory"/>
+</bean>
+
+<!-- minaTemplate -->
+<bean id="minaTemplate" class="org.springmore.rpc.mina.client.MinaTemplate">
+	<property name="connectFactory" ref="longConnectFactory"></property>
+</bean>
+```
+java代码示例：
+``` java
+@Autowired
+MinaTemplate minaTemplate;
+@Test
+public void 发送对象() throws InterruptedException {
+	User user = new User();
+	user.setUserId(10);
+	User user2 = minaTemplate.sengObject(user);
+	System.out.println(user2.getUserId());
+}
+```
+
+###### 长连接异步通信
+只有连接工厂配置不一样
+spring配置文件：
+``` xml
+<bean id="objectSerializationCodecFactory" class="org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory">
+		
+</bean>
+<!-- 连接工厂 -->
+<bean id="aysnlongConnectFactory" class="org.springmore.rpc.mina.client.lc.asyn.LongAsynConnectFactory">
+	<property name="poolSize">
+		<value>10</value>
+	</property>
+	<property name="host">
+		<value>localhost</value>
+	</property>
+	<property name="port">
+		<value>18886</value>
+	</property>
+	<property name="connectTimeoutMillis">
+		<value>30000</value>
+	</property>
+	<property name="readBufferSize">
+		<value>2048*2048</value>
+	</property>
+	<property name="protocolCodecFactory" ref="objectSerializationCodecFactory"/>
+</bean>
+
+<!-- minaTemplate -->
+<bean id="minaTemplate" class="org.springmore.rpc.mina.client.MinaTemplate">
+	<property name="connectFactory" ref="aysnlongConnectFactory"></property>
+</bean>
+```
+java代码示例：
+``` java
+@Autowired
+MinaTemplate minaTemplate;
+@Test
+public void 发送对象() throws InterruptedException {
+	User user = new User();
+	user.setUserId(10);
+	User user2 = minaTemplate.sengObject(user);
+	System.out.println(user2.getUserId());
+}
+```
