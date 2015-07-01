@@ -165,17 +165,29 @@ public class WebUtil {
 			final HttpServletResponse response) {
 		write(text, response);
 	}
-
+	
+	/**
+	 * 发送html
+	 * @param html
+	 * @param response
+	 * @author 唐延波
+	 * @date 2015年7月1日
+	 */
+	public static void sendHTMLResponse(final String html,
+			final HttpServletResponse response) {
+		write(html,"text/html",response);
+	}
+	
 	/**
 	 * 将字符串写到response writer流中
 	 * 
 	 * @author 唐延波
 	 */
-	private static void write(final String context,
+	private static void write(final String context,final String contentType,
 			final HttpServletResponse response) {
 		PrintWriter writer = null;
 		try {
-			response.setContentType("text/plain");
+			response.setContentType(contentType);
 			response.setCharacterEncoding("utf-8");
 			writer = response.getWriter();
 			writer.write(context);
@@ -186,6 +198,16 @@ public class WebUtil {
 				writer.close();
 			}
 		}
+	}
+
+	/**
+	 * 将字符串写到response writer流中
+	 * 
+	 * @author 唐延波
+	 */
+	private static void write(final String context,
+			final HttpServletResponse response) {
+		write(context,"text/plain",response);
 	}
 
 }
