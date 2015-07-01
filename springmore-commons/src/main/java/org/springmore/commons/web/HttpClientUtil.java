@@ -55,17 +55,37 @@ public class HttpClientUtil {
 	private static final int SOCKET_TIMEOUT = 20000;
 	
 	/**
+	 * 连接超时时间
+	 * 20s
+	 */
+	private int connectTimeout = CONNECT_TIMEOUT;
+	
+	/**
+	 * 请求超时时间
+	 * 20s
+	 */
+	private int connectionRequestTimeout = CONNECT_REQUEST_TIMEOUT;
+	
+	/**
+	 * socket超时时间
+	 * 20s
+	 */
+	private int socketTimeout = SOCKET_TIMEOUT;
+	
+	
+	
+	/**
 	 * 获取HttpClient
 	 * 并配置初始化参数
 	 * @return
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	private static CloseableHttpClient getHttpClient() {
+	private CloseableHttpClient getHttpClient() {
 		RequestConfig requestConfig = RequestConfig.custom()
-				.setConnectTimeout(CONNECT_TIMEOUT)
-				.setConnectionRequestTimeout(CONNECT_REQUEST_TIMEOUT)
-				.setSocketTimeout(SOCKET_TIMEOUT).build();
+				.setConnectTimeout(connectTimeout)
+				.setConnectionRequestTimeout(connectionRequestTimeout)
+				.setSocketTimeout(socketTimeout).build();
 		CloseableHttpClient httpclient = HttpClients.custom()
 				.setDefaultRequestConfig(requestConfig).build();
 		return httpclient;
@@ -77,12 +97,12 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	private static CloseableHttpClient getSSLHttpClient() {	
+	private CloseableHttpClient getSSLHttpClient() {	
 		//设置超时时间
 		RequestConfig requestConfig = RequestConfig.custom()
-				.setConnectTimeout(CONNECT_TIMEOUT)
-				.setConnectionRequestTimeout(CONNECT_REQUEST_TIMEOUT)
-				.setSocketTimeout(SOCKET_TIMEOUT).build();
+				.setConnectTimeout(connectTimeout)
+				.setConnectionRequestTimeout(connectionRequestTimeout)
+				.setSocketTimeout(socketTimeout).build();
 		//设置ssl
 		SSLContext sslContext = SSLContexts.createSystemDefault();
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
@@ -106,7 +126,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	private static String execute(String url, String encoding,
+	private String execute(String url, String encoding,
 			HttpUriRequest httpUriRequest, CloseableHttpClient httpClient)
 			throws Exception {
 		CloseableHttpResponse response = null;
@@ -132,7 +152,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	private static String get(String url, String encoding,
+	private String get(String url, String encoding,
 			CloseableHttpClient httpClient) throws Exception {
 		HttpGet httpget = new HttpGet(url);
 		return execute(url, encoding, httpget, httpClient);
@@ -149,7 +169,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	private static String post(String url, List<NameValuePair> nvps,
+	private String post(String url, List<NameValuePair> nvps,
 			String encoding, CloseableHttpClient httpClient) throws Exception {
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(new UrlEncodedFormEntity(nvps, encoding));
@@ -171,7 +191,7 @@ public class HttpClientUtil {
 	 * @throws ClientProtocolException
 	 * @date 2015-6-10
 	 */
-	public static String get(String url, String encoding) throws Exception {
+	public String get(String url, String encoding) throws Exception {
 		CloseableHttpClient httpClient = getHttpClient();
 		return get(url,encoding,httpClient);
 	}
@@ -187,7 +207,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	public static String get(String url) throws Exception {
+	public String get(String url) throws Exception {
 		return get(url, UTF_8);
 	}
 	
@@ -200,7 +220,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	public static String getSSL(String url, String encoding) throws Exception {
+	public String getSSL(String url, String encoding) throws Exception {
 		CloseableHttpClient httpClient = getSSLHttpClient();
 		return get(url,encoding,httpClient);
 	}
@@ -214,7 +234,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	public static String getSSL(String url) throws Exception {
+	public String getSSL(String url) throws Exception {
 		return getSSL(url,UTF_8);
 	}
 	
@@ -237,7 +257,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	public static String post(String url, List<NameValuePair> nvps,
+	public String post(String url, List<NameValuePair> nvps,
 			String encoding) throws Exception {
 		CloseableHttpClient httpClient = getHttpClient();
 		return post(url,nvps,encoding,httpClient);
@@ -257,7 +277,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	public static String post(String url, List<NameValuePair> nvp)
+	public String post(String url, List<NameValuePair> nvp)
 			throws Exception {
 		return post(url,nvp,UTF_8);
 	}
@@ -278,7 +298,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	public static String postSSL(String url, List<NameValuePair> nvps,
+	public String postSSL(String url, List<NameValuePair> nvps,
 			String encoding) throws Exception {
 		CloseableHttpClient httpClient = getSSLHttpClient();
 		return post(url,nvps,encoding,httpClient);
@@ -299,7 +319,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	public static String postSSL(String url, List<NameValuePair> nvps) throws Exception {
+	public String postSSL(String url, List<NameValuePair> nvps) throws Exception {
 		return postSSL(url,nvps,UTF_8);
 	}
 	
@@ -311,7 +331,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	public static byte[] getFile(String url) throws Exception {
+	public byte[] getFile(String url) throws Exception {
 		CloseableHttpClient httpClient = getHttpClient();
 		CloseableHttpResponse response = null;
 		try {			
@@ -335,7 +355,7 @@ public class HttpClientUtil {
 	 * @author 唐延波
 	 * @date 2015-6-10
 	 */
-	public static String postFile(String url,String fileName,File file) throws Exception{
+	public String postFile(String url,String fileName,File file) throws Exception{
 		CloseableHttpClient httpClient = getHttpClient();
 		HttpPost post = new HttpPost(url);		
 		FileBody bin = new FileBody(file); 
@@ -343,6 +363,6 @@ public class HttpClientUtil {
 		multipartEntityBuilder.addPart(fileName,bin);
 		HttpEntity multiEntity = multipartEntityBuilder.build();
 		post.setEntity(multiEntity);
-		return HttpClientUtil.execute(url, UTF_8, post, httpClient);
+		return execute(url, UTF_8, post, httpClient);
 	}
 }
