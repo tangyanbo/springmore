@@ -2,10 +2,12 @@ package org.springmore.commons.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.SSLContext;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -21,6 +23,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 
@@ -72,6 +75,8 @@ public class HttpClientUtil {
 	 */
 	private int socketTimeout = SOCKET_TIMEOUT;
 	
+	private List<Header> headers;
+	
 	
 	
 	/**
@@ -86,9 +91,9 @@ public class HttpClientUtil {
 				.setConnectTimeout(connectTimeout)
 				.setConnectionRequestTimeout(connectionRequestTimeout)
 				.setSocketTimeout(socketTimeout).build();
-		CloseableHttpClient httpclient = HttpClients.custom()
+		CloseableHttpClient httpClient = HttpClients.custom()
 				.setDefaultRequestConfig(requestConfig).build();
-		return httpclient;
+		return httpClient;
 	}
 	
 	/**
@@ -108,11 +113,11 @@ public class HttpClientUtil {
 		SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
 		        sslContext,
 		        NoopHostnameVerifier.INSTANCE);
-		CloseableHttpClient httpclient = HttpClients.custom()
+		CloseableHttpClient httpClient = HttpClients.custom()
 				.setDefaultRequestConfig(requestConfig)
                 .setSSLSocketFactory(sslsf)
                 .build();
-		return httpclient;
+		return httpClient;
 	}
 	
 	/**
@@ -131,6 +136,9 @@ public class HttpClientUtil {
 			throws Exception {
 		CloseableHttpResponse response = null;
 		try {			
+			if(headers != null){
+				httpUriRequest.setHeaders(headers.toArray(new Header[]{}));				
+			}
 			response = httpClient.execute(httpUriRequest);
 			HttpEntity entity = response.getEntity();
 			String result = EntityUtils.toString(entity, encoding);
@@ -364,5 +372,30 @@ public class HttpClientUtil {
 		HttpEntity multiEntity = multipartEntityBuilder.build();
 		post.setEntity(multiEntity);
 		return execute(url, UTF_8, post, httpClient);
+	}
+
+
+	public void setConnectTimeout(int connectTimeout) {
+		this.connectTimeout = connectTimeout;
+	}
+
+	public void setConnectionRequestTimeout(int connectionRequestTimeout) {
+		this.connectionRequestTimeout = connectionRequestTimeout;
+	}
+
+	public void setSocketTimeout(int socketTimeout) {
+		this.socketTimeout = socketTimeout;
+	}
+
+	public void setHeaders(List<Header> headers) {
+		this.headers = headers;
+	}
+	
+	public void addHeader(String name,String value){
+		Header header = new BasicHeader(name,value);
+		if(headers == null){
+			headers = new ArrayList<Header>();
+		}
+		headers.add(header);
 	}
 }
