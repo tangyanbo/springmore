@@ -15,12 +15,10 @@ import net.sf.json.util.CycleDetectionStrategy;
  * @date 2015年7月6日
  */
 public class JsonLib implements Jsonable{
-	
-	private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
 	/**
 	 * 日期格式
 	 */
-	private String datePattern = DEFAULT_DATE_PATTERN;
+	private String datePattern = DEFFAULT_DATE_FORMAT;
 
 	/**
 	 * 将对象转化成json字符串
@@ -31,7 +29,7 @@ public class JsonLib implements Jsonable{
 	 * @author 唐延波
 	 * @date 2015年7月6日
 	 */
-	public String toJson(Object bean){
+	public String toJSONString(Object bean){
 		if(bean.getClass().isArray()
 				|| bean instanceof Collection){
 			return arrayToJson(bean);
@@ -79,10 +77,6 @@ public class JsonLib implements Jsonable{
 		jsonConfig.registerJsonValueProcessor(Date.class,
 				new DateJsonValueProcessor(datePattern));
 		return jsonConfig;
-	}
-
-	public String getDatePattern() {
-		return datePattern;
 	}
 
 	/**

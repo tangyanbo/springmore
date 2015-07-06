@@ -8,7 +8,10 @@ import java.util.List;
  * @date 2015年7月6日
  */
 public interface Jsonable {
-
+	
+	String DEFFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	
+	
 	/**
 	 * 将对象转化成json字符串
 	 * 将数组转化为json字符串
@@ -18,7 +21,7 @@ public interface Jsonable {
 	 * @author 唐延波
 	 * @date 2015年7月6日
 	 */
-	String toJson(Object bean);
+	String toJSONString(Object bean);
 	
 	/**
 	 * json转对象
@@ -39,4 +42,12 @@ public interface Jsonable {
 	 * @date 2015年7月6日
 	 */
 	<T> List<T> toList(String json,Class<T> beanClass);
+	
+	/**
+	 * 日期格式
+	 * @param datePattern
+	 * @author 唐延波
+	 * @date 2015年7月6日
+	 */
+	void setDatePattern(String datePattern);
 }

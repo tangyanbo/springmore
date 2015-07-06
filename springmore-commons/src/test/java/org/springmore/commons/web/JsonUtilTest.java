@@ -1,5 +1,7 @@
 package org.springmore.commons.web;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,7 +13,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-public class JSONLibTest {
+public class JsonUtilTest {
 	
 	User user;
 	
@@ -23,7 +25,6 @@ public class JSONLibTest {
 	
 	Set<User> userSet = new HashSet<User>();
 	
-	JsonLib jsonlib = new JsonLib();
 	
 	@Before
 	public void before(){
@@ -48,31 +49,31 @@ public class JSONLibTest {
 
 	@Test
 	public void 对象ToJson() {
-		String objectToJson = jsonlib.toJSONString(user);
+		String objectToJson = JsonUtil.toJSONString(user);
 		System.out.println(objectToJson);
 	}
 	
 	@Test
 	public void mapToJson() {
-		String objectToJson = jsonlib.toJSONString(map);
+		String objectToJson = JsonUtil.toJSONString(map);
 		System.out.println(objectToJson);
 	}
 	
 	@Test
 	public void arrayToJson() {
-		String objectToJson = jsonlib.toJSONString(array);
+		String objectToJson = JsonUtil.toJSONString(array);
 		System.out.println(objectToJson);
 	}
 	
 	@Test
 	public void listToJson() {
-		String objectToJson = jsonlib.toJSONString(users);
+		String objectToJson = JsonUtil.toJSONString(users);
 		System.out.println(objectToJson);
 	}
 	
 	@Test
 	public void setToJson() {
-		String objectToJson = jsonlib.toJSONString(userSet);
+		String objectToJson = JsonUtil.toJSONString(userSet);
 		System.out.println(objectToJson);
 		
 	}
@@ -80,8 +81,8 @@ public class JSONLibTest {
 	@Test
 	public void toObject(){
 		String str = "{\"date\":\"2015-07-06 12:06:47\",\"id\":1,\"name\":\"xxx\",\"user\":[]}";
-		User object = jsonlib.toBean(str, User.class);
+		User object = JsonUtil.toBean(str, User.class);
 		System.out.println(object);
 	}
-	
+
 }

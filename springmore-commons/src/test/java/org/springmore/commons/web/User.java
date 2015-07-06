@@ -50,7 +50,9 @@ public class User {
 	public String toString() {
 		StringBuffer s = new StringBuffer();
 		s.append("id:"+id);
+		s.append("\n\r");
 		s.append("name:"+name);
+		s.append("\n\r");
 		s.append("date:"+date);
 		
 		return s.toString();
