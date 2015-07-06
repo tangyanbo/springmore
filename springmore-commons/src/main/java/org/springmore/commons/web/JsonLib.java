@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.springmore.commons.exception.CommonsException;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -125,6 +127,18 @@ public class JsonLib implements Jsonable{
 	@Override
 	public void setExcludes(String[] excludes) {
 		this.excludes = excludes;
+	}
+
+
+	@Override
+	public com.alibaba.fastjson.JSONObject toJSON(Object bean) {
+		throw new CommonsException("此方法不支持");
+	}
+
+
+	@Override
+	public com.alibaba.fastjson.JSONArray toJSONArray(Object bean) {
+		throw new CommonsException("此方法不支持");
 	}
 	
 }

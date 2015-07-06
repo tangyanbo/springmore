@@ -2,16 +2,13 @@ package org.springmore.commons.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.CycleDetectionStrategy;
-
 import org.springmore.commons.exception.CommonsException;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * <pre>
@@ -24,6 +21,12 @@ import org.springmore.commons.exception.CommonsException;
  * @author 唐延波
  * @date 2013-5-10
  * @date 最后更新时间 2013-11-21 更新者 唐延波
+ * @date 更新时间 2015-07-06
+ * <pre>
+ * 更新内容：将对象转成json的逻辑移到JsonUtil
+ * 且默认是用fastjson实现
+ * </pre>
+ * 
  */
 public class WebUtil {
 
@@ -45,8 +48,8 @@ public class WebUtil {
 			final HttpServletResponse response) {
 		final Message message = new Message(errorMsg);
 		response.setStatus(SERVER_ERROR);
-		final JSONObject jsonMessage = JSONObject.fromObject(message);
-		write(jsonMessage.toString(), response);
+		String msgJson = JsonUtil.toJSONString(message);
+		write(msgJson, response);
 	}
 
 	/**
@@ -68,65 +71,8 @@ public class WebUtil {
 	 */
 	public static void sendJSONObjectResponse(final Object object,
 			final String[] excludes, final HttpServletResponse response) {
-		final JsonConfig jsonConfig = new JsonConfig();
-		if (excludes != null) {
-			jsonConfig.setExcludes(excludes);
-		}
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
-		jsonConfig.registerJsonValueProcessor(Date.class,
-				new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
-		final JSONObject jsonObject = JSONObject.fromObject(object, jsonConfig);
-		sendResponse(jsonObject.toString(), response);
-	}
-
-	/**
-	 * 将数组转化为Json格式并发送到客户端
-	 * 
-	 * @author 唐延波
-	 */
-	public static void sendJSONArrayResponse(final Object array,
-			final HttpServletResponse response) {
-		sendJSONArrayResponse(array, new String[] {}, response);
-	}
-
-	/**
-	 * <pre>
-	 * 将对象转化为Json格式并发送到客户端 
-	 * 并提供去除对象部分属性的功能
-	 * </pre>
-	 * @param excludes
-	 *            除对象部分属性
-	 * @author 唐延波
-	 */
-	public static void sendJSONArrayResponse(final Object array,
-			final String[] excludes, final HttpServletResponse response) {
-		sendJSONArrayResponse(array, excludes, null, response);
-	}
-
-	/**
-	 * <pre>
-	 * 将对象转化为Json格式并发送到客户端 
-	 * 并提供去除对象部分属性的功能 提供分页功能
-	 * </pre>
-	 * @author 唐延波
-	 */
-	public static void sendJSONArrayResponse(final Object array,
-			final String[] excludes, final IPageInfo pageInfo,
-			final HttpServletResponse response) {
-		final JsonConfig config = new JsonConfig();
-		config.setExcludes(excludes);
-		sendJSONArrayResponse(array, config, pageInfo, response);
-	}
-
-	/**
-	 * 将对象转化为Json格式并发送到客户端 并提JsonConfig
-	 * 
-	 * @author 唐延波
-	 */
-	@Deprecated
-	public static void sendJSONArrayResponse(final Object array,
-			final JsonConfig jsonConfig, final HttpServletResponse response) {
-		sendJSONArrayResponse(array, jsonConfig, null);
+		String jsonString = JsonUtil.toJSONString(object,excludes);
+		sendResponse(jsonString, response);
 	}
 
 	/**
@@ -135,14 +81,9 @@ public class WebUtil {
 	 * 
 	 * @author 唐延波
 	 */
-	@Deprecated
-	public static void sendJSONArrayResponse(final Object array,
-			final JsonConfig jsonConfig, final IPageInfo pageInfo,
-			final HttpServletResponse response) {
-		jsonConfig.registerJsonValueProcessor(Date.class,
-				new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
-		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
-		final JSONArray jsonArray = JSONArray.fromObject(array, jsonConfig);
+	public static void sendJSONArrayResponse(final Object object,final String[] excludes,
+			final IPageInfo pageInfo,final HttpServletResponse response) {
+		JSONArray jsonArray = JsonUtil.toJSONArray(object,excludes);
 		if (pageInfo != null) {
 			final JSONObject jsonObject = new JSONObject();
 			jsonObject.put("total", pageInfo.getTotalCount());

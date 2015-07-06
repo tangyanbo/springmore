@@ -48,8 +48,8 @@ public class JsonUtilTest {
 
 	@Test
 	public void 对象ToJson() {
-		JsonUtil.DEFAULT_JSON = JsonUtil.FAST_JSON;
-		String objectToJson = JsonUtil.toJSONString(user,"id");
+		JsonUtil.DEFAULT_JSON = JsonUtil.JSON_LIB;
+		String objectToJson = JsonUtil.toJSONString(user);
 		System.out.println(objectToJson);
 	}
 	

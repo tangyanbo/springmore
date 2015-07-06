@@ -2,6 +2,9 @@ package org.springmore.commons.web;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * json接口
  * @author 唐延波
@@ -22,7 +25,24 @@ public interface Jsonable {
 	 * @date 2015年7月6日
 	 */
 	String toJSONString(Object bean);
+
+	/**
+	 * 将java bean转化为JSONObject
+	 * @param bean
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年7月6日
+	 */
+	JSONObject toJSON(Object bean);	
 	
+	/**
+	 * 将数组或者集合转化为JSONArray
+	 * @param bean
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年7月6日
+	 */
+	JSONArray toJSONArray(Object bean);
 	
 	/**
 	 * json转对象

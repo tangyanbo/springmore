@@ -3,6 +3,8 @@ package org.springmore.commons.web;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 /**
@@ -57,5 +59,17 @@ public class FastJson implements Jsonable {
 	public void setExcludes(String[] excludes) {
 		this.excludes = excludes;
 	}
+
+	@Override
+	public JSONObject toJSON(Object bean) {
+		return (JSONObject) JSON.toJSON(bean);
+	}
+
+	@Override
+	public JSONArray toJSONArray(Object bean) {
+		return (JSONArray) JSON.toJSON(bean);
+	}
+
+	
 
 }
