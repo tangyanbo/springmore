@@ -72,3 +72,5 @@
 * WebUtil servlet发送response信息封装，发送json字符串封装
 * JsonUtil 封装fastjson和jsonlib 二者可选其一，默认为fastjson
 
+#### MapUtil 
+百度地图 web api
