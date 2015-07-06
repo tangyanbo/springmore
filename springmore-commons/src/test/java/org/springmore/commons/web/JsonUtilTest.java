@@ -1,6 +1,5 @@
 package org.springmore.commons.web;
 
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,7 +48,8 @@ public class JsonUtilTest {
 
 	@Test
 	public void 对象ToJson() {
-		String objectToJson = JsonUtil.toJSONString(user);
+		JsonUtil.DEFAULT_JSON = JsonUtil.FAST_JSON;
+		String objectToJson = JsonUtil.toJSONString(user,"id");
 		System.out.println(objectToJson);
 	}
 	

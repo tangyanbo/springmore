@@ -23,6 +23,7 @@ public interface Jsonable {
 	 */
 	String toJSONString(Object bean);
 	
+	
 	/**
 	 * json转对象
 	 * @param json
@@ -50,4 +51,12 @@ public interface Jsonable {
 	 * @date 2015年7月6日
 	 */
 	void setDatePattern(String datePattern);
+	
+	/**
+	 * 过滤字段
+	 * @param excludes
+	 * @author 唐延波
+	 * @date 2015年7月6日
+	 */
+	void setExcludes(String[] excludes);
 }

@@ -19,6 +19,13 @@ public class JsonLib implements Jsonable{
 	 * 日期格式
 	 */
 	private String datePattern = DEFFAULT_DATE_FORMAT;
+	
+	/**
+	 * 过滤字段
+	 */
+	private String[] excludes;
+	
+	private JsonConfig jsonConfig;
 
 	/**
 	 * 将对象转化成json字符串
@@ -30,6 +37,7 @@ public class JsonLib implements Jsonable{
 	 * @date 2015年7月6日
 	 */
 	public String toJSONString(Object bean){
+		jsonConfig = getJsonConfig();
 		if(bean.getClass().isArray()
 				|| bean instanceof Collection){
 			return arrayToJson(bean);
@@ -38,15 +46,16 @@ public class JsonLib implements Jsonable{
 		}
 	}
 	
+	
 	/**
 	 * 对象转json
 	 * @param bean
+	 * @param jsonConfig
 	 * @return
 	 * @author 唐延波
 	 * @date 2015年7月6日
 	 */
-	private String objectToJson(Object bean){
-		JsonConfig jsonConfig = getJsonConfig();
+	private String objectToJson(Object bean){		
 		JSONObject jsonMessage = JSONObject.fromObject(bean,jsonConfig);
 		return jsonMessage.toString();
 	}
@@ -54,12 +63,12 @@ public class JsonLib implements Jsonable{
 	/**
 	 * 数组，集合等转json
 	 * @param bean
+	 * @param jsonConfig
 	 * @return
 	 * @author 唐延波
 	 * @date 2015年7月6日
 	 */
 	private String arrayToJson(Object bean){
-		JsonConfig jsonConfig = getJsonConfig();
 		JSONArray jsonArray = JSONArray.fromObject(bean, jsonConfig);
 		return jsonArray.toString();		
 	}
@@ -73,21 +82,12 @@ public class JsonLib implements Jsonable{
 	 */
 	private JsonConfig getJsonConfig(){
 		JsonConfig jsonConfig = new JsonConfig();
+		jsonConfig.setExcludes(excludes);
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
 		jsonConfig.registerJsonValueProcessor(Date.class,
 				new DateJsonValueProcessor(datePattern));
 		return jsonConfig;
-	}
-
-	/**
-	 * 日期格式
-	 * @param datePattern
-	 * @author 唐延波
-	 * @date 2015年7月6日
-	 */
-	public void setDatePattern(String datePattern) {
-		this.datePattern = datePattern;
-	}
+	}	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -105,5 +105,26 @@ public class JsonLib implements Jsonable{
 		return list;
 	}
 	
+	/**
+	 * 日期格式
+	 * @param datePattern
+	 * @author 唐延波
+	 * @date 2015年7月6日
+	 */
+	@Override
+	public void setDatePattern(String datePattern) {
+		this.datePattern = datePattern;
+	}
+
+	/**
+	 * 过滤字段
+	 * @param excludes
+	 * @author 唐延波
+	 * @date 2015年7月6日
+	 */
+	@Override
+	public void setExcludes(String[] excludes) {
+		this.excludes = excludes;
+	}
 	
 }
