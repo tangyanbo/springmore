@@ -5,8 +5,8 @@
  3. 封装一般工具类如FileUtil,DateUtil,StringUtil,FTPUtil等
  4. 封装复杂组件，如redis,mina,netty
  
- 欢迎加入springmore讨论qq群：261502547
- 个人QQ: 370493945 非诚勿扰
+ * 欢迎加入springmore讨论qq群：261502547
+ * 个人QQ: 370493945 非诚勿扰
  
 ## springmore-core组件
 #### spring+ibatis实现读写分离
