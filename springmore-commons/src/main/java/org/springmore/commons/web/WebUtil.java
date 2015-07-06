@@ -17,7 +17,7 @@ import com.alibaba.fastjson.JSONObject;
  * 自动将对象或数组转换成Json格式的字符串，并提供对象属性过滤的功能
  * 2 提供发送错误信息到浏览器的方法，格式为json
  * </pre>
- * 
+ * @version 1.0.2
  * @author 唐延波
  * @date 2013-5-10
  * @date 最后更新时间 2013-11-21 更新者 唐延波
