@@ -12,7 +12,13 @@ import net.sf.json.processors.JsonValueProcessor;
  * @author 唐延波
  * @date 2015-6-10
  */
-public class DateJsonValueProcessor implements JsonValueProcessor{
+public class DateJsonValueProcessor implements JsonValueProcessor{	
+	
+	private String datePattern;
+	
+	public DateJsonValueProcessor(String datePattern){
+		this.datePattern = datePattern;
+	}
 
 	@Override
 	public Object processArrayValue(Object arg0, JsonConfig arg1) {
@@ -21,7 +27,7 @@ public class DateJsonValueProcessor implements JsonValueProcessor{
 
 	@Override
 	public Object processObjectValue(String arg0, Object obj, JsonConfig arg2) {
-		SimpleDateFormat dateFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat dateFmt = new SimpleDateFormat(datePattern);
 		if (obj == null) {
 			return "";
 		} else {

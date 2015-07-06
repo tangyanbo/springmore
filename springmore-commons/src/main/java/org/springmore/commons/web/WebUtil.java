@@ -74,7 +74,7 @@ public class WebUtil {
 		}
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
 		jsonConfig.registerJsonValueProcessor(Date.class,
-				new DateJsonValueProcessor());
+				new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
 		final JSONObject jsonObject = JSONObject.fromObject(object, jsonConfig);
 		sendResponse(jsonObject.toString(), response);
 	}
@@ -140,7 +140,7 @@ public class WebUtil {
 			final JsonConfig jsonConfig, final IPageInfo pageInfo,
 			final HttpServletResponse response) {
 		jsonConfig.registerJsonValueProcessor(Date.class,
-				new DateJsonValueProcessor());
+				new DateJsonValueProcessor("yyyy-MM-dd HH:mm:ss"));
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
 		final JSONArray jsonArray = JSONArray.fromObject(array, jsonConfig);
 		if (pageInfo != null) {
