@@ -25,19 +25,19 @@ public class ShortConnectFactory implements ConnectFactory{
 	
 	private int port;
 	
-	private int readBufferSize = 2048;
+	private int readBufferSize = DEFUALT_READ_BUFFER_SIZE;
 	
 	/**
 	 * 连接超时时间
 	 */
-	private long connectTimeoutMillis;
+	private long connectTimeoutMillis = DEFUALT_CONNECT_TIMEOUT_MILLIS;
 	
 	/**
 	 * 编码解码工厂
 	 */
 	private ProtocolCodecFactory protocolCodecFactory;
 	
-	private ShortConnectFactory(){
+	public ShortConnectFactory(){
 		
 	}
 	

@@ -10,7 +10,13 @@ import org.springframework.beans.factory.InitializingBean;
  *
  */
 public interface ConnectFactory extends InitializingBean{
+	
+	int DEFUALT_CONNECT_TIMEOUT_MILLIS = 20000;
 
+	int DEFUALT_READ_BUFFER_SIZE = 2048;
+	
+	
+	
 	/**
 	 * 关闭连接
 	 * @param connection

@@ -4,7 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springmore.rpc.mina.client.MinaTemplate;
+import org.springmore.rpc.mina.client.sc.ShortConnectFactory;
+import org.springmore.rpc.mina.codec.NewTextLineCodecFactory;
 import org.springmore.rpc.mina.server.User;
 
 
@@ -12,11 +13,21 @@ public class MinaClientTest {
 
 	MinaTemplate minaTemplate;
 	
-	@Before
+	
 	public void before() {
 		String[] xmls = new String[] { "classpath:applicationContext.xml"};
 		ApplicationContext context = new ClassPathXmlApplicationContext(xmls);
 		minaTemplate = context.getBean(MinaTemplate.class);
+	}
+	
+	@Before
+	public void initShortConnectionFactory() {
+		minaTemplate = new MinaTemplate();
+		ShortConnectFactory factory = new ShortConnectFactory();
+		factory.setHost("localhost");
+		factory.setPort(18886);
+		factory.setProtocolCodecFactory(new NewTextLineCodecFactory());
+		minaTemplate.setConnectFactory(factory);
 	}
 
 	@Test
