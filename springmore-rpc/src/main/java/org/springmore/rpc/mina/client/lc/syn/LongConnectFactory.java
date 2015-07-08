@@ -58,7 +58,7 @@ public class LongConnectFactory implements ConnectFactory{
 	 */
 	private ProtocolCodecFactory protocolCodecFactory;
 	
-	private LongConnectFactory(){
+	public LongConnectFactory(){
 		
 	}
 	

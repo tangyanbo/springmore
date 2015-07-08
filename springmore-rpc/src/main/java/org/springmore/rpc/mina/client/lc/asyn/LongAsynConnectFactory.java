@@ -63,7 +63,7 @@ public class LongAsynConnectFactory implements ConnectFactory{
 	 */
 	private ProtocolCodecFactory protocolCodecFactory;
 	
-	private LongAsynConnectFactory(){
+	public LongAsynConnectFactory(){
 		
 	}	
 		
