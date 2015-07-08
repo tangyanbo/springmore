@@ -1,6 +1,9 @@
 ## springmore-rpc组件
 * 封装mina客户端
 * 实现mina的短连接通信，长连接同步通信，长连接异步通信
+* 关于mina更多的文章，请参考：
+[mina参考文档](http://www.cnblogs.com/tangyanbo/category/658857.html)
+
 
 ###### 短连接传输字节
 spring配置文件：
