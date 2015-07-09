@@ -12,9 +12,6 @@
 	<name>springmore :: Module :: commons</name>
 
 	<dependencies>
-		<!-- UTILS begin -->
-		<!-- <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> 
-			<optional>true</optional> </dependency> -->
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
