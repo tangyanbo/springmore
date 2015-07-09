@@ -44,6 +44,7 @@ public class ObjectHandler extends IoHandlerAdapter {
 	@Override
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
+		System.out.println("服务端接收："+message);
 		session.write(message);
 	}
 }

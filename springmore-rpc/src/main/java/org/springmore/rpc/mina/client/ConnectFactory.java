@@ -53,4 +53,12 @@ public interface ConnectFactory extends InitializingBean{
 	void setProtocolCodecFactory(ProtocolCodecFactory protocolCodecFactory);
 	
 	void setReadBufferSize(String readBufferSize);
+	
+	/**
+	 * 创建工厂
+	 * 
+	 * @author 唐延波
+	 * @date 2015年7月9日
+	 */
+	void build();
 }

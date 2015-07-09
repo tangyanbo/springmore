@@ -1,6 +1,5 @@
 package org.springmore.rpc.mina.client.lc.syn;
 
-import org.apache.mina.core.session.IoSession;
 import org.springmore.rpc.mina.client.BaseResult;
 
 /**

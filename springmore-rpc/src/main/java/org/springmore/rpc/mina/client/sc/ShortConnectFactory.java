@@ -137,6 +137,12 @@ public class ShortConnectFactory implements ConnectFactory{
 	public void setReadBufferSize(String readBufferSize) {
 		this.readBufferSize = new Double(MathUtil.evaluate(readBufferSize)).intValue();
 	}
+
+
+	@Override
+	public void build() {
+		init();
+	}
 	
 	
 }
