@@ -20,13 +20,17 @@ import java.util.Map;
 
 import javax.crypto.Cipher;
 
-import org.springmore.commons.codec.Base64;
+import org.springmore.commons.codec.Base64Util;
 
 /**
  * RSA加解密工具类
  * 
  * @author 唐延波
  * @date 2015-6-9
+ * @version 1.1
+ * @date 2015-7-15
+ * @update
+ * 修改部分注释,使参数和返回值更容易阅读
  */
 public abstract class RSAUtil {
 	
@@ -39,14 +43,14 @@ public abstract class RSAUtil {
 	public static final String RSA_model = "RSA/ECB/PKCS1Padding";
 
 	private static final int KEY_SIZE = 512;
+	
+	private static final String UTF8 = "UTF-8";
 
 	/**
 	 * 私钥解密
 	 * 
-	 * @param data
-	 *            待解密二进制数据
-	 * @param key
-	 *            二进制密钥
+	 * @param data 待解密二进制数据
+	 * @param key 二进制密钥
 	 * @return 二进制结果
 	 * @throws Exception
 	 * @author 唐延波
@@ -63,31 +67,28 @@ public abstract class RSAUtil {
 	}
 
 	/**
-	 * 私钥解密 默认编码方式为utf-8
+	 * 私钥解密 
 	 * 
-	 * @param data
-	 *            待解密数据base64字符串
-	 * @param key
-	 *            密钥base64字符串
-	 * @return
+	 * @param base64data 密文数据base64
+	 * @param base64key 密钥base64字符串
+	 * @return 默认编码方式为utf-8
 	 * @throws Exception
 	 * @author 唐延波
 	 * @date 2015-6-9
 	 */
-	public static String decryptByPrivateKey(String data, String key)
+	public static String decryptByPrivateKey(String base64data, String base64key)
 			throws Exception {
-		byte[] dataByte = decryptByPrivateKey(Base64.decodeBase64(data),
-				Base64.decodeBase64(key));
-		return new String(dataByte, "utf-8");
+		byte[] data = Base64Util.decodeBase64(base64data);
+		byte[] key = Base64Util.decodeBase64(base64key);
+		byte[] result = decryptByPrivateKey(data,key);
+		return new String(result, UTF8);
 	}
 
 	/**
 	 * 公钥解密
 	 * 
-	 * @param data
-	 *            密文数据
-	 * @param key
-	 *            密钥
+	 * @param data 密文数据
+	 * @param key 密钥
 	 * @return
 	 * @throws Exception
 	 * @author 唐延波
@@ -106,29 +107,26 @@ public abstract class RSAUtil {
 	/**
 	 * 公钥解密
 	 * 
-	 * @param data
-	 *            密文数据
-	 * @param key
-	 *            密钥
-	 * @return
+	 * @param base64data base64(密文数据)
+	 * @param base64key base64(密钥)
+	 * @return UTF-8编码
 	 * @throws Exception
 	 * @author 唐延波
 	 * @date 2015-6-9
 	 */
-	public static String decryptByPublicKey(String data, String key)
+	public static String decryptByPublicKey(String base64data, String base64key)
 			throws Exception {
-		byte[] dataByte = decryptByPublicKey(Base64.decodeBase64(data),
-				Base64.decodeBase64(key));
-		return new String(dataByte);
+		byte[] data = Base64Util.decodeBase64(base64data);
+		byte[] key = Base64Util.decodeBase64(base64key);
+		byte[] result = decryptByPublicKey(data,key);
+		return new String(result,UTF8);
 	}
 
 	/**
 	 * 公钥加密
 	 * 
-	 * @param data
-	 *            数据明文
-	 * @param key
-	 *            密钥
+	 * @param data 数据明文
+	 * @param key 密钥        
 	 * @return
 	 * @throws Exception
 	 * @author 唐延波
@@ -147,29 +145,26 @@ public abstract class RSAUtil {
 	/**
 	 * 公钥加密
 	 * 
-	 * @param data
-	 *            数据明文
-	 * @param key
-	 *            密钥
-	 * @return base64字符串
+	 * @param data 数据明文字符串
+	 * @param base64key 密钥base64
+	 * @return 密文base64字符串
 	 * @throws Exception
 	 * @author 唐延波
 	 * @date 2015-6-9
 	 */
-	public static String encryptByPublicKey(String data, String key)
+	public static String encryptByPublicKey(String data, String base64key)
 			throws Exception {
-		byte[] signByte = encryptByPublicKey(data.getBytes("utf-8"),
-				Base64.decodeBase64(key));
-		return Base64.encodeBase64String(signByte);
+		byte[] key = Base64Util.decodeBase64(base64key);
+		byte[] encryptData = encryptByPublicKey(data.getBytes(UTF8),
+				key);
+		return Base64Util.encodeBase64String(encryptData);
 	}
 
 	/**
 	 * 私钥加密
 	 * 
-	 * @param data
-	 *            数据明文
-	 * @param key
-	 *            密钥
+	 * @param data 数据明文
+	 * @param key 密钥
 	 * @return
 	 * @throws Exception
 	 * @author 唐延波
@@ -188,25 +183,25 @@ public abstract class RSAUtil {
 	/**
 	 * 私钥加密
 	 * 
-	 * @param data
-	 * @param key
+	 * @param data 明文字符串
+	 * @param base64key 密钥base64
 	 * @return
 	 * @throws Exception
 	 * @author 唐延波
 	 * @date 2015-6-9
 	 */
-	public static String encryptByPrivateKey(String data, String key)
+	public static String encryptByPrivateKey(String data, String base64key)
 			throws Exception {
 		byte[] signByte = encryptByPrivateKey(data.getBytes(),
-				Base64.decodeBase64(key));
-		return Base64.encodeBase64String(signByte);
+				Base64Util.decodeBase64(base64key));
+		return Base64Util.encodeBase64String(signByte);
 	}
 
 	// 私钥加密 RSA使用 RSA/ECB/PKCS1Padding 组合模式补位。
 	public static byte[] encryptByPrivateKeyIss(byte[] data, String key)
 			throws Exception {
 		// 对密钥解密
-		byte[] keyBytes = Base64.decodeBase64(key);
+		byte[] keyBytes = Base64Util.decodeBase64(key);
 		// 取得私钥
 		PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
 		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
@@ -242,7 +237,13 @@ public abstract class RSAUtil {
 		return key.getEncoded();
 	}
 
-	// 初始化密�?
+	/**
+	 * 初始化密钥
+	 * @return
+	 * @throws Exception
+	 * @author 唐延波
+	 * @date 2015年7月15日
+	 */
 	public static Map<String, Object> initKey() throws Exception {
 		KeyPairGenerator keyPairGen = KeyPairGenerator
 				.getInstance(KEY_ALGORITHM);
@@ -263,9 +264,8 @@ public abstract class RSAUtil {
 	/**
 	 * 获取公钥
 	 * 
-	 * @param certPath
-	 *            证书地址
-	 * @return
+	 * @param certPath 公钥证书地址(.cer文件)
+	 * @return base64密钥
 	 * @throws Exception
 	 */
 	public static String getPublicKeyByCert(String certPath) throws Exception {
@@ -277,7 +277,7 @@ public abstract class RSAUtil {
 					.generateCertificate(fis);
 			PublicKey publicKey = certificate.getPublicKey();
 			fis.close();
-			return Base64.encodeBase64String(publicKey.getEncoded());
+			return Base64Util.encodeBase64String(publicKey.getEncoded());
 		} catch (Exception e) {
 			throw e;
 		}
@@ -287,11 +287,9 @@ public abstract class RSAUtil {
 	/**
 	 * 获得私钥
 	 * 
-	 * @param certPath
-	 *            证书地址
-	 * @param password
-	 *            证书密码
-	 * @return
+	 * @param certPath 证书地址(.pfx)
+	 * @param password 证书密码
+	 * @return base64密钥
 	 * @throws Exception
 	 */
 	public static String getPrivateKeyByCert(String certPath, String password)
@@ -307,7 +305,7 @@ public abstract class RSAUtil {
 		PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
 				password.toCharArray());
 		fis.close();
-		return Base64.encodeBase64String(privateKey.getEncoded());
+		return Base64Util.encodeBase64String(privateKey.getEncoded());
 	}
 
 }

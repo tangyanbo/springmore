@@ -1,8 +1,12 @@
 package org.springmore.commons.web;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springmore.commons.exception.CommonsException;
@@ -149,6 +153,26 @@ public class WebUtil {
 	private static void write(final String context,
 			final HttpServletResponse response) {
 		write(context,"text/plain",response);
+	}
+	
+	/**
+	 * 获取request流中的文本
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 * @author 唐延波
+	 * @date 2015年7月15日
+	 */
+	public static String getRequestContent(HttpServletRequest request) throws Exception{
+		String content = "";
+		InputStream inputStream = request.getInputStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				inputStream));
+		String tempStr = "";
+		while ((tempStr = reader.readLine()) != null) {
+			content += tempStr;
+		}
+		return content;
 	}
 
 }
