@@ -64,6 +64,19 @@ public abstract class DESedeUtil {
 	}
 	
 	/**
+	 * 解密
+	 * @param data 待解密数据
+	 * @param key 密钥
+	 * @return String 解密数据编码为UTF-8
+	 * @author 唐延波
+	 * @date 2015-6-9
+	 */	
+	public static String decryptString(byte[] data, byte[] key)throws Exception{
+		byte[] decrypt = decrypt(data,key);
+		return new String(decrypt,"UTF-8");
+	}
+	
+	/**
 	 * 加密
 	 * @param data 待加密数据
 	 * @param key 密钥
