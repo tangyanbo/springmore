@@ -2,6 +2,8 @@ package org.springmore.commons.codec;
 
 import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.codec.Charsets;
+
 /**
  * Base64工具类
  * 继承了apache commons Base64的所有功能
@@ -12,7 +14,7 @@ public class Base64Util extends org.apache.commons.codec.binary.Base64{
 
 	public static String decodeBase64String(String base64String) throws UnsupportedEncodingException{
 		byte[] decodeBase64 = decodeBase64(base64String);
-		return new String(decodeBase64,"UTF-8");
+		return new String(decodeBase64,Charsets.UTF_8);
 	}
 	
 }

@@ -25,6 +25,19 @@ public class Md5Util {
     	return DigestUtils.md5Hex(data);
     }
     
+    /**
+	 * md5加密大写
+	 * 默认是utf-8格式
+	 * 返回hex String
+	 * @author 唐延波
+	 * @date 2015-6-9
+	 * @param source
+	 * @return
+	 */
+    public static String md5HexUpperCase(String data){
+    	return DigestUtils.md5Hex(data).toUpperCase();
+    }
+    
     
     /**
      * 加密字节并返回hex字符串

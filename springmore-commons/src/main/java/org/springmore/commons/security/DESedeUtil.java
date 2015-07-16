@@ -8,6 +8,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
+import org.apache.commons.codec.Charsets;
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * 3DES加密
  * DESede/ECB/PKCS5Padding
@@ -73,7 +76,7 @@ public class DESedeUtil {
 	 */	
 	public static String decryptString(byte[] data, byte[] key)throws Exception{
 		byte[] decrypt = decrypt(data,key);
-		return new String(decrypt,"UTF-8");
+		return new String(decrypt,Charsets.UTF_8);
 	}
 	
 	/**
@@ -95,6 +98,55 @@ public class DESedeUtil {
 	}
 	
 	/**
+	 * 加密
+	 * @param data 待加密数据
+	 * @param key 密钥
+	 * @return byte[] 加密数据
+	 * @author 唐延波
+	 * @date 2015-6-9
+	 */	
+	public static byte[] encrypt(String data, byte[] key) throws Exception{
+		byte[] dataByte = data.getBytes(Charsets.UTF_8);
+		//还原密钥
+		Key k = toKey(key);
+		Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+		//初始化，设置为解密模式
+		cipher.init(Cipher.ENCRYPT_MODE, k);
+		//执行操作
+		return cipher.doFinal(dataByte);
+	}
+	
+	/**
+	 * 加密并base64编码
+	 * @param data
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 * @author 唐延波
+	 * @date 2015年7月16日
+	 */
+	public static String encryptAndBase64(byte[] data, byte[] key) throws Exception{
+		byte[] encrypt = encrypt(data,key);
+		String base64String = Base64.encodeBase64String(encrypt);
+		return base64String;
+	}
+	
+	/**
+	 * 加密并base64编码
+	 * @param data
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 * @author 唐延波
+	 * @date 2015年7月16日
+	 */
+	public static String encryptAndBase64(String data, byte[] key) throws Exception{
+		byte[] dataByte = data.getBytes(Charsets.UTF_8);
+		String base64String = encryptAndBase64(dataByte,key);
+		return base64String;
+	}
+	
+	/**
 	 * 生成密钥
 	 * 
 	 * @return byte[] 二进制密钥
@@ -106,17 +158,27 @@ public class DESedeUtil {
 		 * KeyGenerator.getInstance(KEY_ALGORITHM,"BC");
 		 */
 		KeyGenerator kg = KeyGenerator.getInstance(KEY_ALGORITHM);
-		/**
-		 * 初始化
-		 *使用128位或192位长度密钥，按如下代码实现
-		 *kg.init(128);
-		 *kg.init(192);
-		 */
-		kg.init(168);
+		//112 or 168
+		kg.init(112);
 		//生成秘密密钥
 		SecretKey secretKey = kg.generateKey();
 		//获得密钥的二进制编码形式
 		return secretKey.getEncoded();
+	}
+	
+
+	/**
+	 * 生成随机3des密钥
+	 * 32位
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年7月16日
+	 */
+	public static String generateMD5Key(){
+		double ranNum = Math.random();
+		int i = (int) (ranNum * 1000000);
+		String key = Md5Util.md5Hex(String.valueOf(i));
+		return key;
 	}
 
 	

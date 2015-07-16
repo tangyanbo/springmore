@@ -47,6 +47,7 @@ public class DESUtil {
 		SecretKey secretKey = kg.generateKey();
 		return secretKey.getEncoded();
 	}
+	
 
 	/**
 	 * 加密 默认加密方式：DES/ECB/NOPadding
@@ -98,6 +99,8 @@ public class DESUtil {
 	public static byte[] decrypt(byte[] data, byte[] key) throws Exception {
 		return decrypt(data, key, DEFAULT_CIPHER_ALGORITHM);
 	}
+	
+	
 
 	/**
 	 * 解密
