@@ -28,14 +28,14 @@ public class JSONLibTest {
 	@Before
 	public void before(){
 		user = new User();
-		user.setId(1);
+		user.setId(1l);
 		user.setName("xxx");
 		user.setDate(new Date());
 		map = new HashMap<String,User>();
 		array = new User[3];
 		for(int i=0;i<3;i++){
 			User user2 = new User();
-			user2.setId(i);
+			user2.setId(new Long(i));
 			user2.setName("xxx");
 			user2.setDate(new Date());
 			user.getUser().add(user2);

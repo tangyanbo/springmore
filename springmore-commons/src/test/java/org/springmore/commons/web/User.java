@@ -6,7 +6,7 @@ import java.util.List;
 
 public class User {
 
-	private int id;
+	private Long id;
 
 	private String name;
 
@@ -14,11 +14,13 @@ public class User {
 
 	private List<User> user = new ArrayList<User>();
 
-	public int getId() {
+	private Long count;
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -58,5 +60,14 @@ public class User {
 		return s.toString();
 	}
 
+	public Long getCount() {
+		return count;
+	}
+
+	public void setCount(Long count) {
+		this.count = count;
+	}
+
+	
 	
 }

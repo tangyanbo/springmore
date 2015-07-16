@@ -12,6 +12,8 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSON;
+
 public class JsonUtilTest {
 	
 	User user;
@@ -28,14 +30,15 @@ public class JsonUtilTest {
 	@Before
 	public void before(){
 		user = new User();
-		user.setId(1);
+		user.setId(1l);
 		user.setName("xxx");
 		user.setDate(new Date());
+		user.setCount(1000L);
 		map = new HashMap<String,User>();
 		array = new User[3];
 		for(int i=0;i<3;i++){
 			User user2 = new User();
-			user2.setId(i);
+			user2.setId(new Long(i));
 			user2.setName("xxx");
 			user2.setDate(new Date());
 			user.getUser().add(user2);
@@ -48,9 +51,11 @@ public class JsonUtilTest {
 
 	@Test
 	public void 对象ToJson() {
-		JsonUtil.DEFAULT_JSON = JsonUtil.JSON_LIB;
+		JsonUtil.DEFAULT_JSON = JsonUtil.FAST_JSON;
 		String objectToJson = JsonUtil.toJSONString(user);
+		//String xx = JSON.toJSONString(user,true);
 		System.out.println(objectToJson);
+		//System.out.println(xx);
 	}
 	
 	@Test

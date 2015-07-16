@@ -15,7 +15,7 @@ import javax.crypto.spec.DESedeKeySpec;
  * @author 唐延波
  * @date 2015-6-9
  */
-public abstract class DESedeUtil {
+public class DESedeUtil {
 	 
 	
 	/**
