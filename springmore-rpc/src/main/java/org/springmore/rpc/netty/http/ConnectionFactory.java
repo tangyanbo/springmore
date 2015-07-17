@@ -1,8 +1,15 @@
 package org.springmore.rpc.netty.http;
 
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
+import org.springmore.rpc.mina.client.Result;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -12,6 +19,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpRequestEncoder;
 import io.netty.handler.codec.http.HttpResponseDecoder;
+import io.netty.util.AttributeKey;
 
 /**
  * ConnectionFactory
@@ -21,24 +29,26 @@ import io.netty.handler.codec.http.HttpResponseDecoder;
  */
 public class ConnectionFactory {
 
+	private ConnectionConfig connConfig;
+	
+	private Bootstrap bstrap;
+	
 	/**
-	 * 连接池默认初始化连接数量
+	 * 连接池
 	 */
-	private final static int DEFAULT_POOL_SIZE = 10;
-
+	private final List<ChannelFuture> connectionPool = new ArrayList<ChannelFuture>();
+	
 	/**
-	 * 线程池大小
+	 * 访问计数器
 	 */
-	private int poolSize = DEFAULT_POOL_SIZE;
-
-	private URI uri;
+	private AtomicInteger counter = new AtomicInteger();
 
 	private ConnectionFactory() {
 
 	}
 
 	/**
-	 * 获取工厂实例,此处为单例
+	 * 获取工厂实例
 	 * 
 	 * @return
 	 * @author 唐延波
@@ -66,8 +76,13 @@ public class ConnectionFactory {
 	 * @date 2015年7月17日
 	 */
 	public ChannelFuture getChannelFuture() {
-
-		return null;
+		int count = counter.incrementAndGet();
+		if(count>1000000){
+			counter.set(0);
+		}
+		int index = count%connectionPool.size();
+		ChannelFuture connection = connectionPool.get(index);
+		return connection;
 	}
 
 	/**
@@ -79,11 +94,11 @@ public class ConnectionFactory {
 	 */
 	private void init() throws Exception {
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
-		Bootstrap b = new Bootstrap();
-		b.group(workerGroup);
-		b.channel(NioSocketChannel.class);
-		b.option(ChannelOption.SO_KEEPALIVE, true);
-		b.handler(new ChannelInitializer<SocketChannel>() {
+		bstrap = new Bootstrap();
+		bstrap.group(workerGroup);
+		bstrap.channel(NioSocketChannel.class);
+		bstrap.option(ChannelOption.SO_KEEPALIVE, true);
+		bstrap.handler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			public void initChannel(SocketChannel ch) throws Exception {
 				// 客户端接收到的是httpResponse响应，所以要使用HttpResponseDecoder进行解码
@@ -93,22 +108,30 @@ public class ConnectionFactory {
 				ch.pipeline().addLast(new HttpClientHandler());
 			}
 		});
-
-		// Start the client.
-		ChannelFuture future = b.connect(uri.getHost(), uri.getPort()).sync();
-		initConnection(poolSize);
+		initConnPool();
 	}
 
-	private void initConnection(int size) {
-
+	/**
+	 * 初始化连接池
+	 * @throws Exception
+	 */
+	private void initConnPool() throws Exception {
+		for (int i = 0; i < connConfig.poolSize; i++) {
+			ChannelFuture future = bstrap.connect(connConfig.host, connConfig.port).sync();
+			Channel channel = future.channel();
+			// 计数器
+			channel.attr(AttributeKey.newInstance(Result.COUNTER)).set(new AtomicLong());
+			// result map
+			ConcurrentHashMap<Long, Result> resultMap = new ConcurrentHashMap<Long, Result>(100, 0.75f, 16);
+			channel.attr(AttributeKey.newInstance(Result.RESULT_MAP)).set(resultMap);
+			connectionPool.add(future);
+		}
 	}
 
-	public void setPoolSize(int poolSize) {
-		this.poolSize = poolSize;
+	public ConnectionFactory setConnConfig(ConnectionConfig connConfig) {
+		this.connConfig = connConfig;
+		return this;
 	}
 
-	public void setUri(URI uri) {
-		this.uri = uri;
-	}
-
+	
 }

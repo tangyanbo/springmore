@@ -19,15 +19,49 @@ import io.netty.handler.codec.http.HttpVersion;
  * @date 2015年7月17日
  */
 public class NettyHttp {
+		
+	private ConnectionConfig connConfig;
 	
-	private ChannelFuture channelFuture;
+	private ConnectionFactory factory;
 	
-	private int poolSize;
+	private NettyHttp(){
+		
+	}
 	
-	private String url;
+	/**
+	 * 获取NettyHttp实例
+	 * 
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年7月17日
+	 */
+	public static NettyHttp custom() {
+		NettyHttp nettyHttp = new NettyHttp();
+		return nettyHttp;
+	}
 	
-	public NettyHttp(){
-		init();
+	/**
+	 * 完成初始化
+	 * @return
+	 */
+	public NettyHttp build() {
+		try {
+			factory = ConnectionFactory.custom()
+					.setConnConfig(connConfig).build();	
+		} catch (Exception e) {
+			throw new NettyHttpException(e);
+		}
+		return this;
+	}
+	
+	/**
+	 * 连接配置
+	 * @param connConfig
+	 * @return
+	 */
+	public NettyHttp setConnConfig(ConnectionConfig connConfig) {
+		this.connConfig = connConfig;
+		return this;
 	}
 
 	/**
@@ -41,33 +75,23 @@ public class NettyHttp {
 	 */
 	public String post(String url, String content) {
 		try {
+			Result result = new AsynResult();
+			ChannelFuture channelFuture = factory.getChannelFuture();
 			DefaultFullHttpRequest request = createRequest(channelFuture,url,content);
 			channelFuture.channel().writeAndFlush(request);			
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new NettyHttpException(e);
 		}
 		return null;
 	}
 	
+	
 	/**
-	 * init
-	 * 
-	 * @author 唐延波
-	 * @date 2015年7月17日
-	 */
-	private void init(){
-		
-		channelFuture = ConnectionFactory.custom().setPoolSize(poolSize);
-				create().getChannelFuture();
-	}
-
-	/**
-	 * createRequest
+	 * 构建http请求
 	 * 
 	 * @param future
 	 * @param url
-	 * @param content
+	 * @param content 内容
 	 * @return
 	 * @throws Exception
 	 * @author 唐延波
@@ -78,7 +102,6 @@ public class NettyHttp {
 		String host = uri.getHost();
 		DefaultFullHttpRequest request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST,
 				uri.toASCIIString(), Unpooled.wrappedBuffer(content.getBytes(UTF_8)));
-		// 构建http请求
 		request.headers().set(HttpHeaderNames.HOST, host);
 		request.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
 		request.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, request.content().readableBytes());
