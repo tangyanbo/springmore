@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.crypto.Cipher;
 
 import org.springmore.commons.codec.Base64Util;
+import static org.springmore.commons.codec.Charsets.UTF_8;
 
 /**
  * RSA加解密工具类
@@ -43,8 +44,6 @@ public abstract class RSAUtil {
 	public static final String RSA_model = "RSA/ECB/PKCS1Padding";
 
 	private static final int KEY_SIZE = 512;
-	
-	private static final String UTF8 = "UTF-8";
 
 	/**
 	 * 私钥解密
@@ -81,7 +80,7 @@ public abstract class RSAUtil {
 		byte[] data = Base64Util.decodeBase64(base64data);
 		byte[] key = Base64Util.decodeBase64(base64key);
 		byte[] result = decryptByPrivateKey(data,key);
-		return new String(result, UTF8);
+		return new String(result, UTF_8);
 	}
 
 	/**
@@ -119,7 +118,7 @@ public abstract class RSAUtil {
 		byte[] data = Base64Util.decodeBase64(base64data);
 		byte[] key = Base64Util.decodeBase64(base64key);
 		byte[] result = decryptByPublicKey(data,key);
-		return new String(result,UTF8);
+		return new String(result,UTF_8);
 	}
 
 	/**
@@ -155,7 +154,7 @@ public abstract class RSAUtil {
 	public static String encryptByPublicKey(String data, String base64key)
 			throws Exception {
 		byte[] key = Base64Util.decodeBase64(base64key);
-		byte[] encryptData = encryptByPublicKey(data.getBytes(UTF8),
+		byte[] encryptData = encryptByPublicKey(data.getBytes(UTF_8),
 				key);
 		return Base64Util.encodeBase64String(encryptData);
 	}

@@ -8,8 +8,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
-import org.apache.commons.codec.Charsets;
-import org.apache.commons.codec.binary.Base64;
+import org.springmore.commons.codec.Base64Util;
+import org.springmore.commons.codec.Charsets;
 
 /**
  * 3DES加密
@@ -127,7 +127,7 @@ public class DESedeUtil {
 	 */
 	public static String encryptAndBase64(byte[] data, byte[] key) throws Exception{
 		byte[] encrypt = encrypt(data,key);
-		String base64String = Base64.encodeBase64String(encrypt);
+		String base64String = Base64Util.encodeBase64String(encrypt);
 		return base64String;
 	}
 	

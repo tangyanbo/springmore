@@ -1,5 +1,7 @@
 package org.springmore.commons.web;
 
+import static org.springmore.commons.codec.Charsets.UTF_8;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,7 @@ public class HttpClientUtilTest {
 	public void testDoGetStringString() throws Exception {
 		HttpClientUtil httpUtil = new HttpClientUtil();
 		String doGet = httpUtil.get("http://localhost:8888/login/");
-		String doGet2 = httpUtil.get("http://localhost:8888/login/",HttpClientUtil.UTF_8);
+		String doGet2 = httpUtil.get("http://localhost:8888/login/",UTF_8.name());
 		System.out.println(doGet);
 	}
 
@@ -42,5 +44,11 @@ public class HttpClientUtilTest {
 		HttpClientUtil httpUtil = new HttpClientUtil();
 		httpUtil.getFile("http://localhost:8888/login/login!login.ac");
 		httpUtil.postFile("http://localhost:8888/login/login!login.ac", "fileName", new File("d:/test.txt"));
+	}
+	
+	@Test
+	public void postString() throws Exception{
+		HttpClientUtil httpUtil = new HttpClientUtil();
+		httpUtil.post("http://localhost:8888/paydemo/noticeAccept", "哈哈");
 	}
 }

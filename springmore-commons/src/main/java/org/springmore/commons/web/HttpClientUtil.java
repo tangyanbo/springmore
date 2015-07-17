@@ -2,6 +2,7 @@ package org.springmore.commons.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -26,18 +28,18 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import static org.springmore.commons.codec.Charsets.UTF_8;
 
 /**
  * HttpClientUtil
  * 
  * @author 唐延波
  * @date 2015-6-10
+ * @version 1.1
+ * @date 2015-7-17
+ * 增加方法post 文本
  */
 public class HttpClientUtil {
-
-	public static final String UTF_8 = "utf-8";
-	
-	public static final String GBK = "gbk";
 	
 	/**
 	 * 连接超时时间
@@ -216,7 +218,7 @@ public class HttpClientUtil {
 	 * @date 2015-6-10
 	 */
 	public String get(String url) throws Exception {
-		return get(url, UTF_8);
+		return get(url, UTF_8.name());
 	}
 	
 	/**
@@ -243,7 +245,7 @@ public class HttpClientUtil {
 	 * @date 2015-6-10
 	 */
 	public String getSSL(String url) throws Exception {
-		return getSSL(url,UTF_8);
+		return getSSL(url,UTF_8.name());
 	}
 	
 	
@@ -287,7 +289,27 @@ public class HttpClientUtil {
 	 */
 	public String post(String url, List<NameValuePair> nvp)
 			throws Exception {
-		return post(url,nvp,UTF_8);
+		return post(url,nvp,UTF_8.name());
+	}
+	
+	/**
+	 * post文本
+	 * 默认编码UTF_8
+	 * @param url
+	 * @param content
+	 * @return
+	 * @throws Exception
+	 * @author 唐延波
+	 * @date 2015年7月17日
+	 */
+	public String post(String url, String content)
+			throws Exception {
+		CloseableHttpClient httpClient = getHttpClient();
+		HttpPost httpPost = new HttpPost(url);
+		StringEntity se = new StringEntity(content,UTF_8);
+		se.setContentEncoding(UTF_8.name());
+		httpPost.setEntity(se);
+		return execute(url, UTF_8.name(), httpPost, httpClient);
 	}
 	
 	/**
@@ -328,7 +350,7 @@ public class HttpClientUtil {
 	 * @date 2015-6-10
 	 */
 	public String postSSL(String url, List<NameValuePair> nvps) throws Exception {
-		return postSSL(url,nvps,UTF_8);
+		return postSSL(url,nvps,UTF_8.name());
 	}
 	
 	/**
@@ -371,7 +393,7 @@ public class HttpClientUtil {
 		multipartEntityBuilder.addPart(fileName,bin);
 		HttpEntity multiEntity = multipartEntityBuilder.build();
 		post.setEntity(multiEntity);
-		return execute(url, UTF_8, post, httpClient);
+		return execute(url, UTF_8.name(), post, httpClient);
 	}
 
 

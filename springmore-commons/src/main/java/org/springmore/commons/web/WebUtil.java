@@ -14,6 +14,8 @@ import org.springmore.commons.exception.CommonsException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import static org.springmore.commons.codec.Charsets.UTF_8;
+
 /**
  * <pre>
  * WebUtil 
@@ -133,7 +135,7 @@ public class WebUtil {
 		PrintWriter writer = null;
 		try {
 			response.setContentType(contentType);
-			response.setCharacterEncoding("utf-8");
+			response.setCharacterEncoding(UTF_8.name());
 			writer = response.getWriter();
 			writer.write(context);
 		} catch (IOException e) {
@@ -167,7 +169,7 @@ public class WebUtil {
 		String content = "";
 		InputStream inputStream = request.getInputStream();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				inputStream));
+				inputStream,UTF_8));
 		String tempStr = "";
 		while ((tempStr = reader.readLine()) != null) {
 			content += tempStr;
