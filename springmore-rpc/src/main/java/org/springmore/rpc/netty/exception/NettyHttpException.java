@@ -1,4 +1,4 @@
-package org.springmore.rpc.netty.http;
+package org.springmore.rpc.netty.exception;
 
 /**
  * NettyHttpException

@@ -1,4 +1,4 @@
-package org.springmore.rpc.netty.http;
+package org.springmore.rpc.netty.http.consumer;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.CountDownLatch;

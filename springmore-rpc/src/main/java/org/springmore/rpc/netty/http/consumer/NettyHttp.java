@@ -1,8 +1,10 @@
-package org.springmore.rpc.netty.http;
+package org.springmore.rpc.netty.http.consumer;
 
 import static org.springmore.commons.codec.Charsets.UTF_8;
 
 import java.net.URI;
+
+import org.springmore.rpc.netty.exception.NettyHttpException;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -78,7 +80,7 @@ public class NettyHttp {
 			Result result = new AsynResult();
 			ChannelFuture channelFuture = factory.getChannelFuture();
 			DefaultFullHttpRequest request = createRequest(channelFuture,url,content);
-			channelFuture.channel().writeAndFlush(request);			
+			channelFuture.channel().writeAndFlush(request);
 		} catch (Exception e) {
 			throw new NettyHttpException(e);
 		}
