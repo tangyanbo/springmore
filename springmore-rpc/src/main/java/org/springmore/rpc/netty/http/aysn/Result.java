@@ -7,7 +7,7 @@ package org.springmore.rpc.netty.http.aysn;
  * @author 唐延波
  * @date 2015年6月26日
  */
-public interface Result {
+public interface Result<T> {
 
 	public static final String RESULT = "result";
 
@@ -22,7 +22,7 @@ public interface Result {
 	 * @author 唐延波
 	 * @date 2015年6月26日
 	 */
-	<T> T get() throws InterruptedException;
+	T get() throws InterruptedException;
 	
 	/**
 	 * 存放消息
@@ -30,7 +30,7 @@ public interface Result {
 	 * @author 唐延波
 	 * @date 2015年6月26日
 	 */
-	void set(Object message);
+	void set(T message);
 	
 	
 }

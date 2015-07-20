@@ -15,7 +15,8 @@ import io.netty.util.AttributeKey;
  */
 public class HttpClientHandler extends ChannelHandlerAdapter {
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof HttpResponse) 
         {
@@ -26,9 +27,10 @@ public class HttpClientHandler extends ChannelHandlerAdapter {
         {
             HttpContent content = (HttpContent)msg;
             ByteBuf buf = content.content();
-            System.out.println(buf.toString(io.netty.util.CharsetUtil.UTF_8));
+            Result<String> result = (Result<String>)ctx.attr(AttributeKey.valueOf(Result.RESULT)).get();
+            String contentString = buf.toString(io.netty.util.CharsetUtil.UTF_8);
+            result.set(contentString);
             buf.release();
         }
-        //ctx.attr(AttributeKey.newInstance("")).set(value);
     }
 }
