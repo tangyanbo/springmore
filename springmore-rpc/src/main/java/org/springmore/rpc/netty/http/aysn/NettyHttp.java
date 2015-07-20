@@ -46,7 +46,13 @@ public class NettyHttp {
 			ChannelFuture channelFuture = channelFuturePool.getResource();
 			DefaultFullHttpRequest request = createRequest(channelFuture,url,content);
 			Channel channel = channelFuture.channel();
-			channel.attr(AttributeKey.newInstance(Result.RESULT)).set(result);
+			AttributeKey<Object> resultKey = null;
+			if(AttributeKey.exists(Result.RESULT)){
+				resultKey = AttributeKey.valueOf(Result.RESULT);
+			}else{
+				resultKey = AttributeKey.newInstance(Result.RESULT);
+			}			
+			channel.attr(resultKey).set(result);
 			channel.writeAndFlush(request);
 			channelFuturePool.returnResource(channelFuture);
 			String resultContent = result.get();

@@ -17,10 +17,14 @@ public class NettyHttpTest {
 	}
 
 	@Test
-	public void testPost() {
-		String post = http.post("http://localhost:8888/paydemo/noticeAccept", "are you ok?");
-		System.out.println(post);
-		http.destory();
+	public void testPost() throws InterruptedException {
+		while(true){
+			
+			String post = http.post("http://localhost:8888/paydemo/noticeAccept", "are you ok?");
+			System.out.println(post);
+			Thread.sleep(100);
+		}
+		
 	}
 
 }
