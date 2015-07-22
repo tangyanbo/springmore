@@ -26,6 +26,8 @@ public class NettyHttp {
 			
 	private ChannelFuturePool channelFuturePool;
 	
+	private AttributeKey<Object> resultKey = AttributeKey.newInstance(Result.RESULT);
+	
 	public NettyHttp(ChannelFuturePool channelFuturePool){
 		this.channelFuturePool = channelFuturePool;
 	}
@@ -45,14 +47,7 @@ public class NettyHttp {
 			ChannelFuture channelFuture = channelFuturePool.getResource();
 			DefaultFullHttpRequest request = createRequest(channelFuture,url,content);
 			Channel channel = channelFuture.channel();
-			AttributeKey<Object> resultKey = null;
-			if(AttributeKey.exists(Result.RESULT)){
-				resultKey = AttributeKey.valueOf(Result.RESULT);
-			}else{
-				resultKey = AttributeKey.newInstance(Result.RESULT);
-			}			
-			channel.attr(resultKey).set(result);
-			
+			channel.attr(resultKey).set(result);			
 			channel.writeAndFlush(request);			
 			String resultContent = result.get();
 			channelFuturePool.returnResource(channelFuture);

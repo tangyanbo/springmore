@@ -20,7 +20,7 @@ public class HttpClientHandler extends ChannelHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof HttpResponse){
             HttpResponse response = (HttpResponse) msg;
-            System.out.println("CONTENT_TYPE:" + response.headers().get(HttpHeaderNames.CONTENT_TYPE));
+            //System.out.println("CONTENT_TYPE:" + response.headers().get(HttpHeaderNames.CONTENT_TYPE));
         }
         if(msg instanceof HttpContent){
             HttpContent content = (HttpContent)msg;
