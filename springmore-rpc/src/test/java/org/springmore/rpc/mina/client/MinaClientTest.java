@@ -1,5 +1,10 @@
 package org.springmore.rpc.mina.client;
 
+import java.io.UnsupportedEncodingException;
+import java.lang.Character.UnicodeBlock;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -31,7 +36,7 @@ public class MinaClientTest {
 		minaTemplate.setConnectFactory(factory);
 	}
 	
-	@Before
+	//@Before
 	public void 长连接同步工厂() {
 		minaTemplate = new MinaTemplate();
 		LongConnectFactory factory = new LongConnectFactory();
@@ -66,6 +71,16 @@ public class MinaClientTest {
 		System.out.println(new String(s));
 		System.out.println(s);
 
+	}
+	
+	@Test
+	public void test() throws UnsupportedEncodingException{
+		String str= "\\u4e0a\\u6d77";
+		String s = URLEncoder.encode("上海");
+		System.out.println(s);
+		String newStr = URLDecoder.decode(str,"UTF-8");
+		
+		System.out.println(newStr);
 	}
 
 }
