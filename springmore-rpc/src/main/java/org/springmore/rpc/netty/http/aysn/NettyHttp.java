@@ -3,7 +3,6 @@ package org.springmore.rpc.netty.http.aysn;
 import static org.springmore.commons.codec.Charsets.UTF_8;
 
 import java.net.URI;
-
 import org.springmore.rpc.netty.exception.NettyHttpException;
 import org.springmore.rpc.netty.pool.ChannelFuturePool;
 
@@ -24,7 +23,7 @@ import io.netty.util.AttributeKey;
  * @date 2015年7月17日
  */
 public class NettyHttp {
-		
+			
 	private ChannelFuturePool channelFuturePool;
 	
 	public NettyHttp(ChannelFuturePool channelFuturePool){
@@ -53,9 +52,10 @@ public class NettyHttp {
 				resultKey = AttributeKey.newInstance(Result.RESULT);
 			}			
 			channel.attr(resultKey).set(result);
-			channel.writeAndFlush(request);
-			channelFuturePool.returnResource(channelFuture);
+			
+			channel.writeAndFlush(request);			
 			String resultContent = result.get();
+			channelFuturePool.returnResource(channelFuture);
 			return resultContent;
 		} catch (Exception e) {
 			throw new NettyHttpException(e);
