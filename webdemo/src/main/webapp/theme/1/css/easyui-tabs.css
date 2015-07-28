@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* CSS Document */
+.sr_tabs .easyui-tabs{
+	width:auto;}
+.sr_tabs .tabs{
+	padding-left:30px;
+	border-width: 0 0 1px 0;}
+.sr_tabs .tabs-header{
+	background:none;}
+.sr_tabs .tabs li.tabs-selected a.tabs-inner {
+	color: #000;}
+.sr_tabs .tabs li{
+	cursor:pointer}

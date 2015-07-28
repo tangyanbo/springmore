@@ -169,6 +169,18 @@
 	<build>
 		<finalName>springmore-core</finalName>
 		<plugins>
+		
+			<!-- 编译插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			
 			<!-- 测试插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

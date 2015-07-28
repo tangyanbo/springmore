@@ -3,16 +3,18 @@ package org.springmore.rpc.netty.http.aysn;
 import static org.springmore.commons.codec.Charsets.UTF_8;
 
 import java.net.URI;
-
 import org.springmore.rpc.netty.exception.NettyHttpException;
+import org.springmore.rpc.netty.pool.ChannelFuturePool;
 
 import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.handler.codec.http.DefaultFullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpVersion;
+import io.netty.util.AttributeKey;
 
 /**
  * NettyHttp
@@ -21,51 +23,15 @@ import io.netty.handler.codec.http.HttpVersion;
  * @date 2015年7月17日
  */
 public class NettyHttp {
-		
-	private ConnectionConfig connConfig;
+			
+	private ChannelFuturePool channelFuturePool;
 	
-	private ConnectionFactory factory;
+	private AttributeKey<Object> resultKey = AttributeKey.newInstance(Result.RESULT);
 	
-	private NettyHttp(){
-		
+	public NettyHttp(ChannelFuturePool channelFuturePool){
+		this.channelFuturePool = channelFuturePool;
 	}
 	
-	/**
-	 * 获取NettyHttp实例
-	 * 
-	 * @return
-	 * @author 唐延波
-	 * @date 2015年7月17日
-	 */
-	public static NettyHttp custom() {
-		NettyHttp nettyHttp = new NettyHttp();
-		return nettyHttp;
-	}
-	
-	/**
-	 * 完成初始化
-	 * @return
-	 */
-	public NettyHttp build() {
-		try {
-			factory = ConnectionFactory.custom()
-					.setConnConfig(connConfig).build();	
-		} catch (Exception e) {
-			throw new NettyHttpException(e);
-		}
-		return this;
-	}
-	
-	/**
-	 * 连接配置
-	 * @param connConfig
-	 * @return
-	 */
-	public NettyHttp setConnConfig(ConnectionConfig connConfig) {
-		this.connConfig = connConfig;
-		return this;
-	}
-
 	/**
 	 * post提交 默认utf-8编码
 	 * 
@@ -77,14 +43,18 @@ public class NettyHttp {
 	 */
 	public String post(String url, String content) {
 		try {
-			Result result = new AsynResult();
-			ChannelFuture channelFuture = factory.getChannelFuture();
+			Result<String> result = new AsynResult<String>();			
+			ChannelFuture channelFuture = channelFuturePool.getResource();
 			DefaultFullHttpRequest request = createRequest(channelFuture,url,content);
-			channelFuture.channel().writeAndFlush(request);
+			Channel channel = channelFuture.channel();
+			channel.attr(resultKey).set(result);			
+			channel.writeAndFlush(request);			
+			String resultContent = result.get();
+			channelFuturePool.returnResource(channelFuture);
+			return resultContent;
 		} catch (Exception e) {
 			throw new NettyHttpException(e);
 		}
-		return null;
 	}
 	
 	
@@ -108,5 +78,9 @@ public class NettyHttp {
 		request.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
 		request.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, request.content().readableBytes());
 		return request;
+	}
+	
+	public void destory(){
+		channelFuturePool.destroy();
 	}
 }

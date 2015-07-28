@@ -6,18 +6,17 @@ package org.springmore.rpc.netty.http.aysn;
  * @author 唐延波
  * @date 2015年6月26日
  */
-public class AsynResult extends BaseResult{	
+public class AsynResult<T> extends BaseResult<T>{	
 
 	@Override
-	public <T> T get() throws InterruptedException {
+	public T get() throws InterruptedException {
 		T message = sybGet();
 		return message;
 	}
 
 	@Override
-	public void set(Object message) {
+	public void set(T message) {
 		synSet(message);
 	}
-
 	
 }

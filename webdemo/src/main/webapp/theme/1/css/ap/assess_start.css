@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+body{font-family:"宋体"; font-size:12px; color:#222222;text-align: center;}
+div{text-align: left;}
+a{ color:#222222; text-decoration:none;}
+a:hover{ color:#067BC0; text-decoration:none;}
+ul{ list-style:none;}
+*{ padding:0px; margin:0px;}
+.clear{ clear:both;}
+.l{ float:left;}
+.r{ float:right;}
+.size14{ font-size:14px;}
+.fontB{ font-weight:bold;}
+.banner{ width:1000px; margin:0 auto; height:165px; position:relative;}
+.home{ display:block; height:16px; line-height:16px; position:absolute; top:145px; left:940px; padding-left:20px;}
+.Tbody{ width:1000px; margin:0 auto; background:#fff;}
+
+/*标题和说明*/
+.wordTitle{ line-height:40px; text-align:center;}
+.assess_explain{ display:block; float:left; width:35px; height:30px; }
+.word_explain{ line-height:24px; text-indent:2em; padding:0px 5px;}
+.choose{ height:30px; line-height:30px; font-size:14px; font-weight:bold; color:#3C8DCF;}
+.green{ display:block; float:left; width:25px; height:30px; background:url(../images/icon_green.gif) 5px 8px no-repeat;}
+.person{ display:block; float:left; width:25px; height:30px; background:url(../images/person.gif) 5px 8px no-repeat;}
+.user_group{ margin-top:5px;}
+.user_group li{ float:left; margin:0px 5px 7px 5px; display:inline; border:1px solid #CCCCCC; background:url(../images/user_group.jpg) repeat-x; height:33px; line-height:33px; text-align:center;_width:100px;min-width:100px;padding-right:.5em;padding-left: .5em;}
+.select_red{ color:#FE4300;}
+
+/*表格*/
+.weight_tab{ width:984px; margin:10px 0px 10px 5px; border-collapse:collapse;}
+.weight_tab td{ border:1px solid #8AC1E8; padding-left:8px; line-height:30px;}
+.weight_tab tr th{ background:url(../images/tabTit_bg.gif) repeat-x; height:30px; line-height:30px; border:1px solid #8AC1E8; border-right:1px solid #74afd8;}
+.w3{ width:30%;}
+.w1{ width:10%;}
+.select_bg{ background:#EBF7FF;}
+a.word_color_blue{ color:#0072FF;}
+a.word_color_green{ color:#029536;}
+.choice{ padding-left:2em; line-height:24px;}
+.submit{ cursor:pointer;float:right; width:50px; height:22px; border:1px solid #AAADB4; background:url(../images/btn_del_bg.jpg) repeat-x; margin: 0px 12px 10px 0px;}
+.page{ height:30px; margin-bottom:10px;}
+
+/*页脚*/
+.copyright{ height:25px; line-height:25px; text-align:center; color:#222222;}
