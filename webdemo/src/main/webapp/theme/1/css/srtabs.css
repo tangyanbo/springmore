@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+
+[type="checkbox"]{
+	vertical-align:middle;}
+.tabs{
+	width:auto;padding-left:10px}
+.sr_tabs .tabs-header{
+	background:none;}
+.tabs li.tabs-selected a.tabs-inner {
+	color: #000;}
+.tabs li{
+	cursor:pointer}
+.tabs li a.tabs-inner{
+	border-radius:0px;color:#000;padding:0px 15px;background:url(../images/tabheader.gif) repeat-x;}
+.tabs li a.tabs-inner:hover {
+	color: #306e9d;background:url(../images/tabheadera.gif) repeat-x;}
+.tabs li.tabs-selected a.tabs-inner:hover{
+	background:none}
+.sr_tabs .panel-title{
+	height:30px;line-height:30px;color:#0a2435}
+.accordion .accordion-header-selected .panel-title{
+	color:#0a2435}
+.accordion .accordion-header-selected{
+	background:#97cbf2}
+.accordion .accordion-body{
+	background:#e1ebf5}

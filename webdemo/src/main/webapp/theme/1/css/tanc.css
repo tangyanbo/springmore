@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	font-size:12px;margin:0px;padding:0}
+
+.img-box{
+	background:#fff;border:1px solid #d5d5d5;width:81px;height:108px;margin:0px auto;padding:5px;}
+.img-box .imgBorder{
+	width:81px;height:108px;overflow:hidden}
+.img-box .imgBorder img{
+	position:relative;/* vertical-align:text-top;*/}
+
+.btnUpload{
+	width:110px;height:25px;margin:4px auto}
+.btnUpload .upload{
+	background:url(../images/icons/upload.jpg) no-repeat; cursor:pointer;border:0;outline:none;
+	width:100%;height:100%}
+.shuomb{
+	text-align:center}
+.zTitle{
+	height:30px;line-height:30px;border-top:1px solid #97afc7;border-bottom:1px solid #97afc7;
+	background:#f2f5fa}
+.tline{
+	height:15px;border-bottom:1px solid #a5c9e1;}
+.name-list{
+	color:#868485;margin-top:5px}
+.name-list .list{
+	width:97px;height:33px;background:url(../images/derive.jpg) no-repeat; line-height:33px;display:inline-block;color:#1d5375;font-weight:bold;text-indent:2.2em;cursor:pointer}
+.cllist{
+	line-height:30px}
+.cllist,.cllist a{
+	color:#026a13}
+.gd-kd{
+	width:100px;height: 22px;line-height: 22px;display:inline-block;white-space: nowrap;overflow: hidden;}
+.gd-kd label{
+	height: 22px;line-height: 22px;display:inline-block;
+}
+.wid-gk{
+	display:inline-block;line-height:32px;width:80px}
