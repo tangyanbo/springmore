@@ -109,6 +109,20 @@ $.info = function(msg,duration){
 }
 
 /**
+ * 提示消息
+ */
+$.info = function(msg,duration){
+	$.showMsgBox(msg,2,duration);
+}
+
+/**
+ * 错误消息
+ */
+$.error = function(msg,duration){
+	$.showFMsgBox(msg,2,duration);
+}
+
+/**
  * @requires jQuery
  * 将form表单元素的值序列化成对象
  * @returns object

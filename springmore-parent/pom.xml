@@ -56,7 +56,19 @@
 		<maven>3.0.0</maven>
 	</prerequisites>
 	
-	
+	<!-- jar包仓库 -->
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>http://repo1.maven.org/maven2/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	
 	
 
