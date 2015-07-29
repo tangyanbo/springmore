@@ -2,8 +2,6 @@ package org.springmore.commons.codec;
 
 import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.codec.Charsets;
-
 /**
  * Base64工具类
  * 继承了apache commons Base64的所有功能
