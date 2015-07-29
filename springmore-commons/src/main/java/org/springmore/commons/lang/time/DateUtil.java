@@ -1,4 +1,4 @@
-package com.shiyue.bbs.codegernerate;
+package org.springmore.commons.lang.time;
 
 import java.text.ParseException;
 import java.util.Date;
