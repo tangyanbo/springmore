@@ -2,6 +2,7 @@
  * 级联框组件
  * @author 唐延波
  * @date 2015-07-28
+ * @version 1.1
  */
 (function($){
 	
@@ -103,23 +104,29 @@ $.ajaxD = function(settings){
 
 /**
  * 提示消息
+ * @param msg 消息
+ * @duration 停留时间,单位为毫秒
  */
 $.info = function(msg,duration){
-	$.showMsgBox(msg,2,duration);
-}
-
-/**
- * 提示消息
- */
-$.info = function(msg,duration){
-	$.showMsgBox(msg,2,duration);
+	$.showSMsgBox(msg,duration);
 }
 
 /**
  * 错误消息
+ * @param msg 消息
+ * @duration 停留时间,单位为毫秒
  */
 $.error = function(msg,duration){
-	$.showFMsgBox(msg,2,duration);
+	$.showFMsgBox(msg,duration);
+}
+
+/**
+ * 成功消息
+ * @param msg 消息
+ * @duration 停留时间,单位为毫秒
+ */
+$.success = function(msg,duration){
+	$.showSMsgBox(msg,duration);
 }
 
 /**
