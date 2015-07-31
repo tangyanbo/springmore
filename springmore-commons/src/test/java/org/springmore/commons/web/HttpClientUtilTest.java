@@ -3,6 +3,8 @@ package org.springmore.commons.web;
 import static org.springmore.commons.codec.Charsets.UTF_8;
 
 import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,4 +53,6 @@ public class HttpClientUtilTest {
 		HttpClientUtil httpUtil = new HttpClientUtil();
 		httpUtil.post("http://localhost:8888/paydemo/noticeAccept", "哈哈");
 	}
+	
+
 }
