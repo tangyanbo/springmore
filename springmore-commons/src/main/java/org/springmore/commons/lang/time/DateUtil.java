@@ -1,7 +1,12 @@
 package org.springmore.commons.lang.time;
 
+import java.sql.Time;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -94,6 +99,349 @@ public class DateUtil extends DateUtils{
      * @return
      */
     public static String getDateString(final String pattern){
-    	return DateUtil.format(new Date(),pattern);
+    	return format(new Date(),pattern);
     }
+    
+    /**
+     * 获得今天的开始时间
+     * yyyy-MM-dd 00:00:00
+     * @return
+     * @author 唐延波
+     * @date 2015年8月4日
+     */
+	public static Date getDayStartTime() {
+		return getDayStartTime(new Date());
+	}
+
+	/**
+	 * 获得给定日期的的开始时间
+	 * yyyy-MM-dd 00:00:00
+	 * @param date
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Date getDayStartTime(Date date) {
+		if (date == null) {
+			date = new Date();
+		}
+		return getDateNoTime(date);
+	}
+	
+	/**
+	 * 获得今天的结束时间
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Date getDayEndTime() {
+		return getDayEndTime(new Date());
+	}
+
+	/**
+	 * 获得一天的结束时间
+	 * @param date
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Date getDayEndTime(Date date) {
+		if (date == null) {
+			date = new Date();
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar = getDateNoTime(calendar);
+		calendar.add(Calendar.DAY_OF_WEEK, +1);
+		calendar.add(Calendar.MILLISECOND, -1);
+		return calendar.getTime();
+	}
+
+	
+
+	/**
+	 * 获得一个周的开始时间
+	 * @param date
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Date getWeekStartTime(Date date) {
+		if (date == null) {
+			date = new Date();
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar = getDateNoTime(calendar);
+		calendar.set(Calendar.DAY_OF_WEEK, 1);
+		return calendar.getTime();
+	}
+
+	/**
+	 * 获得一个周的结束时间
+	 * @param date
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Date getWeekEndTime(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getWeekStartTime(date));
+		calendar.add(Calendar.WEEK_OF_MONTH, +1);
+		calendar.add(Calendar.MILLISECOND, -1);
+		return calendar.getTime();
+	}
+
+	/**
+	 * 获得一个月的开始时间
+	 * @param date
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Date getMonthStartTime(Date date) {
+		if (date == null) {
+			date = new Date();
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar = getDateNoTime(calendar);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		return calendar.getTime();
+	}
+
+	/**
+	 * 获得一个月的结束时间
+	 * @param date
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Date getMonthEndTime(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getMonthStartTime(date));
+		calendar.add(Calendar.MONTH, +1);
+		calendar.add(Calendar.MILLISECOND, -1);
+		return calendar.getTime();
+	}
+
+	/**
+	 * 获得一个没有时间的日期
+	 * @param c
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Calendar getDateNoTime(Calendar c) {
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c;
+	}
+
+	/**
+	 * 获得一个没有时间的日期
+	 * @param date
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Date getDateNoTime(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar = getDateNoTime(calendar);
+		return calendar.getTime();
+	}
+
+	/**
+	 * 获取一个没有日期的时间
+	 * @param date
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static Time getTimeNoDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		if (date == null) {
+			date = new Date();
+		}
+		return Time.valueOf(sdf.format(date));
+	}
+
+	/**
+	 * 获得最近6年
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static List<Date> getAdjacentYears() {
+		return getAroundYears(new Date(), 6);
+	}
+
+	/**
+	 * 获得邻近的几年
+	 * @param year
+	 * @param count
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static List<Date> getAroundYears(Date year, int count) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(year);
+		List<Date> years = new ArrayList<Date>(count);
+		calendar.add(Calendar.YEAR, -(count / 2));
+		int i = 0;
+		do {
+			years.add(calendar.getTime());
+			calendar.add(Calendar.YEAR, 1);
+		} while (++i < count);
+		return years;
+	}
+
+	/**
+	 * 自然周次
+	 * @param date
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static List<Date> getWeeks(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int maxWeek = calendar.getMaximum(Calendar.WEEK_OF_YEAR);
+		List<Date> weeks = new ArrayList<Date>(maxWeek);
+		calendar.set(Calendar.DAY_OF_YEAR, 1);
+		for (int i = 0; i < maxWeek; i++) {
+			weeks.add(calendar.getTime());
+			calendar.add(Calendar.WEEK_OF_YEAR, +1);
+			if (i == 0) {
+				calendar.set(Calendar.DAY_OF_WEEK, 1);
+			}
+		}
+		return weeks;
+	}
+
+	/**
+	 * 根据开始和结束日期查询周次日期集合
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static List<Date> getWeeks(Date startDate, Date endDate) {
+		if (endDate == null || startDate == null) {
+			return getWeeks(new Date());
+		}
+		Calendar sCalendar = Calendar.getInstance();
+		sCalendar.setTime(startDate);
+		Calendar eCalendar = Calendar.getInstance();
+		eCalendar.setTime(endDate);
+		int maxWeek = computeWeek(startDate, endDate);
+		List<Date> weeks = new ArrayList<Date>();
+		int i = 1;
+		while (sCalendar.before(eCalendar)) {
+			if (sCalendar.get(Calendar.YEAR) == eCalendar.get(Calendar.YEAR)
+					&& sCalendar.get(Calendar.MONTH) == eCalendar.get(Calendar.MONTH)
+					&& sCalendar.get(Calendar.DAY_OF_WEEK_IN_MONTH) == eCalendar.get(Calendar.DAY_OF_WEEK_IN_MONTH)) {
+				break;
+			} else {
+				sCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+				if (i != maxWeek - 1) {
+					if (i == maxWeek) {
+						sCalendar.add(Calendar.DAY_OF_YEAR, 7);
+						weeks.add(sCalendar.getTime());
+					} else {
+						weeks.add(sCalendar.getTime());
+						sCalendar.add(Calendar.DAY_OF_YEAR, 7);
+					}
+				} else {
+					weeks.add(sCalendar.getTime());
+				}
+			}
+			i++;
+		}
+		return weeks;
+	}
+
+	/**
+	 * 根据开始和结束时间计算周次
+	 * @param sdate
+	 * @param edate
+	 * @return
+	 * @author 唐延波
+	 * @date 2015年8月4日
+	 */
+	public static int computeWeek(Date sdate, Date edate) {
+		int wks = 0;
+		Calendar sCalendar = Calendar.getInstance();
+		sCalendar.setTime(sdate);
+		Calendar eCalendar = Calendar.getInstance();
+		eCalendar.setTime(edate);
+		while (sCalendar.before(eCalendar)) {
+			if (sCalendar.get(Calendar.YEAR) == eCalendar.get(Calendar.YEAR)
+					&& sCalendar.get(Calendar.MONTH) == eCalendar.get(Calendar.MONTH)
+					&& sCalendar.get(Calendar.DAY_OF_WEEK_IN_MONTH) == eCalendar.get(Calendar.DAY_OF_WEEK_IN_MONTH)) {
+				break;
+			} else {
+				sCalendar.add(Calendar.DAY_OF_YEAR, 7);
+				wks += 1;
+			}
+		}
+		return wks + 1;
+	}
+
+	/**
+	 * 获得前一天
+	 * @author 唐延波
+	 * @date 2015年7月25日
+	 * @param date
+	 * @return
+	 */
+	public static Date getPreDay(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, -1);
+		return calendar.getTime();
+	}
+	
+	/**
+	 * 获得前一天
+	 * @author 唐延波
+	 * @date 2015年7月25日
+	 * @return
+	 */
+	public static Date getPreDay() {
+		return getPreDay(new Date());
+	}
+
+	/**
+	 * 获取后一天
+	 * @author 唐延波
+	 * @date 2015年7月25日
+	 * @return
+	 */
+	public static Date getAfterDay(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, 1);
+		return calendar.getTime();
+	}
+	
+	/**
+	 * 获取后一天
+	 * @author 唐延波
+	 * @date 2015年7月25日
+	 * @return
+	 */
+	public static Date getAfterDay() {
+		return getAfterDay(new Date());
+	}
+	
+	public static void main(String[] args) {
+		Date preDay = getDayStartTime();
+		System.out.println(preDay);
+	}
 }
