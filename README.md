@@ -41,6 +41,11 @@
 * 实现mina的短连接通信，长连接同步通信，长连接异步通信
 * [springmore-rpc快速入门](文档/springmore-rpc.md)
 
+## 代码自动生成easycode
+* 自动生成bean,dao,service,controller,jsp,js等代码
+* 基于freemark模板,可修改
+* [源码](https://github.com/tangyanbo/easycode)
+
 ## springmore-commons组件
 这是一个工具类库 包含如下功能
 
