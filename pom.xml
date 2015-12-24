@@ -10,10 +10,8 @@
 	<modules>
 		<module>springmore-commons</module>
 		<module>springmore-core</module>
-		<module>springmore-httpclient</module>
 		<module>springmore-redis</module>
 		<module>springmore-rpc</module>
-		<module>springmore-webdemo</module>
 		<module>springmore-easygrid</module>
 	</modules>
 
