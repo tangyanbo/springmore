@@ -536,7 +536,7 @@
 				<!-- 源码插件 -->
 				<plugin>
 					<artifactId>maven-source-plugin</artifactId>
-					<version>2.1</version>
+					<version>2.4</version>
 					<configuration>
 						<attach>true</attach>
 					</configuration>
@@ -550,25 +550,14 @@
 					</executions>
 				</plugin>
 
-				<!-- jar打包相关插件 -->
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.0</version>
-					<configuration>
-						<source>1.7</source>
-						<target>1.7</target>
-						<encoding>UTF-8</encoding>
-					</configuration>
-				</plugin>
-
 				<!-- 编译插件 -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
 						<encoding>UTF-8</encoding>
-						<source>1.6</source>
-						<target>1.6</target>
+						<source>1.7</source>
+						<target>1.7</target>
 					</configuration>
 				</plugin>
 
