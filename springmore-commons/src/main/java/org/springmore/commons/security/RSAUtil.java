@@ -32,6 +32,7 @@ import static org.springmore.commons.codec.Charsets.UTF_8;
  * @date 2015-7-15
  * @update
  * 修改部分注释,使参数和返回值更容易阅读
+ * 将RSA加解密的逻辑移出到 RSA 类
  */
 public abstract class RSAUtil {
 	
@@ -57,12 +58,8 @@ public abstract class RSAUtil {
 	 */
 	public static byte[] decryptByPrivateKey(byte[] data, byte[] key)
 			throws Exception {
-		PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(key);
-		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
-		PrivateKey privateKey = keyFactory.generatePrivate(pkcs8KeySpec);
-		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
-		cipher.init(Cipher.DECRYPT_MODE, privateKey);
-		return cipher.doFinal(data);
+		Cipher cipher = RSA.getPriKeyDecryptCipher(key);
+		return RSA.doFinal(data,cipher);
 	}
 
 	/**
@@ -95,12 +92,8 @@ public abstract class RSAUtil {
 	 */
 	public static byte[] decryptByPublicKey(byte[] data, byte[] key)
 			throws Exception {
-		X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(key);
-		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
-		PublicKey publicKey = keyFactory.generatePublic(x509KeySpec);
-		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
-		cipher.init(Cipher.DECRYPT_MODE, publicKey);
-		return cipher.doFinal(data);
+		Cipher cipher = RSA.getPubKeyDecryptCipher(key);
+		return RSA.doFinal(data,cipher);
 	}
 
 	/**
@@ -133,12 +126,8 @@ public abstract class RSAUtil {
 	 */
 	public static byte[] encryptByPublicKey(byte[] data, byte[] key)
 			throws Exception {
-		X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(key);
-		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
-		PublicKey publicKey = keyFactory.generatePublic(x509KeySpec);
-		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
-		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-		return cipher.doFinal(data);
+		Cipher cipher = RSA.getPubKeyEncryptCipher(key);
+		return RSA.doFinal(data,cipher);
 	}
 
 	/**
@@ -171,14 +160,10 @@ public abstract class RSAUtil {
 	 */
 	public static byte[] encryptByPrivateKey(byte[] data, byte[] key)
 			throws Exception {
-		PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(key);
-		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
-		PrivateKey privateKey = keyFactory.generatePrivate(pkcs8KeySpec);
-		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
-		cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-		return cipher.doFinal(data);
+		Cipher cipher = RSA.getPriKeyEncryptCipher(key);
+		return RSA.doFinal(data,cipher);
 	}
-
+	
 	/**
 	 * 私钥加密
 	 * 
@@ -196,30 +181,10 @@ public abstract class RSAUtil {
 		return Base64Util.encodeBase64String(signByte);
 	}
 
-	// 私钥加密 RSA使用 RSA/ECB/PKCS1Padding 组合模式补位。
-	public static byte[] encryptByPrivateKeyIss(byte[] data, String key)
-			throws Exception {
-		// 对密钥解密
-		byte[] keyBytes = Base64Util.decodeBase64(key);
-		// 取得私钥
-		PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
-		KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
-		Key privateKey = keyFactory.generatePrivate(keySpec);
-		// 对数据加密
-		Cipher cipher = Cipher.getInstance(RSA_model);
-		cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-		return cipher.doFinal(data);
-	}
-
 	// 私钥验证公钥密文
 	public static boolean checkPublicEncrypt(String data, String sign,
 			String pvKey) throws Exception {
 		return data.equals(decryptByPrivateKey(sign, pvKey));
-	}
-
-	public static boolean checkPrivateEncrypt(String data, String sign,
-			String pbKey) throws Exception {
-		return data.equals(decryptByPublicKey(sign, pbKey));
 	}
 
 	// 取得私钥
@@ -260,51 +225,6 @@ public abstract class RSAUtil {
 		return keyMap;
 	}
 
-	/**
-	 * 获取公钥
-	 * 
-	 * @param certPath 公钥证书地址(.cer文件)
-	 * @return base64密钥
-	 * @throws Exception
-	 */
-	public static String getPublicKeyByCert(String certPath) throws Exception {
-		CertificateFactory cff;
-		try {
-			cff = CertificateFactory.getInstance("X.509");
-			FileInputStream fis = new FileInputStream(certPath);
-			java.security.cert.Certificate certificate = cff
-					.generateCertificate(fis);
-			PublicKey publicKey = certificate.getPublicKey();
-			fis.close();
-			return Base64Util.encodeBase64String(publicKey.getEncoded());
-		} catch (Exception e) {
-			throw e;
-		}
-
-	}
-
-	/**
-	 * 获得私钥
-	 * 
-	 * @param certPath 证书地址(.pfx)
-	 * @param password 证书密码
-	 * @return base64密钥
-	 * @throws Exception
-	 */
-	public static String getPrivateKeyByCert(String certPath, String password)
-			throws Exception {
-		KeyStore keyStore = KeyStore.getInstance("PKCS12");
-		InputStream fis = new FileInputStream(certPath);
-		keyStore.load(fis, password.toCharArray());
-		Enumeration<String> aliases = keyStore.aliases();
-		String alias = null;
-		if (aliases.hasMoreElements()) {
-			alias = aliases.nextElement();
-		}
-		PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
-				password.toCharArray());
-		fis.close();
-		return Base64Util.encodeBase64String(privateKey.getEncoded());
-	}
+	
 
 }

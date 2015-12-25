@@ -45,7 +45,7 @@ public class RsaDesUtil {
 	 * @date 2015年7月15日
 	 */
 	public static String decryptByPublicKeyCert(String decryptData,String certPath) throws Exception{
-		String publicKey = RSAUtil.getPublicKeyByCert(certPath);	
+		String publicKey = RSA.getPublicKeyByCert(certPath);	
 		return decryptByPublicKey(decryptData,publicKey);
 	}
 	
@@ -80,7 +80,7 @@ public class RsaDesUtil {
 	 * @date 2015年7月15日
 	 */
 	public static String decryptByPrivateKeyCert(String decryptData,String certPath,String certPwd) throws Exception{
-		String publicKey = RSAUtil.getPrivateKeyByCert(certPath, certPwd);
+		String publicKey = RSA.getPrivateKeyByCert(certPath, certPwd);
 		return decryptByPrivateKey(decryptData,publicKey);
 	}
 	
