@@ -14,11 +14,14 @@ import org.apache.commons.lang3.time.DateUtils;
 /**
  * <pre>
  * DateUtil 继承了apache commons DateUtils的所有功能
+ * 并提供了一些常用的日期功能
  * </pre>
  * @author 唐延波
  * @date 2015-6-9
  */
 public class DateUtil extends DateUtils{
+	
+	public final static String yyyyMMddHHmmss = "yyyyMMddHHmmss";
 	
 	/**
 	 * <pre>
@@ -99,7 +102,11 @@ public class DateUtil extends DateUtils{
      * @return
      */
     public static String getDateString(final String pattern){
-    	return format(new Date(),pattern);
+    	return getDateString(new Date(),pattern);
+    }
+    
+    public static String getDateString(Date date,final String pattern){
+    	return format(date,pattern);
     }
     
     /**
@@ -125,38 +132,13 @@ public class DateUtil extends DateUtils{
 		if (date == null) {
 			date = new Date();
 		}
-		return getDateNoTime(date);
-	}
-	
-	/**
-	 * 获得今天的结束时间
-	 * @return
-	 * @author 唐延波
-	 * @date 2015年8月4日
-	 */
-	public static Date getDayEndTime() {
-		return getDayEndTime(new Date());
-	}
-
-	/**
-	 * 获得一天的结束时间
-	 * @param date
-	 * @return
-	 * @author 唐延波
-	 * @date 2015年8月4日
-	 */
-	public static Date getDayEndTime(Date date) {
-		if (date == null) {
-			date = new Date();
-		}
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar = getDateNoTime(calendar);
-		calendar.add(Calendar.DAY_OF_WEEK, +1);
-		calendar.add(Calendar.MILLISECOND, -1);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
 	}
-
 	
 
 	/**
@@ -172,7 +154,6 @@ public class DateUtil extends DateUtils{
 		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		calendar = getDateNoTime(calendar);
 		calendar.set(Calendar.DAY_OF_WEEK, 1);
 		return calendar.getTime();
 	}
@@ -205,7 +186,6 @@ public class DateUtil extends DateUtils{
 		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		calendar = getDateNoTime(calendar);
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
 		return calendar.getTime();
 	}
@@ -222,35 +202,6 @@ public class DateUtil extends DateUtils{
 		calendar.setTime(getMonthStartTime(date));
 		calendar.add(Calendar.MONTH, +1);
 		calendar.add(Calendar.MILLISECOND, -1);
-		return calendar.getTime();
-	}
-
-	/**
-	 * 获得一个没有时间的日期
-	 * @param c
-	 * @return
-	 * @author 唐延波
-	 * @date 2015年8月4日
-	 */
-	public static Calendar getDateNoTime(Calendar c) {
-		c.set(Calendar.HOUR_OF_DAY, 0);
-		c.set(Calendar.MINUTE, 0);
-		c.set(Calendar.SECOND, 0);
-		c.set(Calendar.MILLISECOND, 0);
-		return c;
-	}
-
-	/**
-	 * 获得一个没有时间的日期
-	 * @param date
-	 * @return
-	 * @author 唐延波
-	 * @date 2015年8月4日
-	 */
-	public static Date getDateNoTime(Date date) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar = getDateNoTime(calendar);
 		return calendar.getTime();
 	}
 
@@ -394,54 +345,50 @@ public class DateUtil extends DateUtils{
 	}
 
 	/**
-	 * 获得前一天
+	 * 获得给定时间的前一天
 	 * @author 唐延波
 	 * @date 2015年7月25日
 	 * @param date
 	 * @return
 	 */
 	public static Date getPreDay(Date date) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar.add(Calendar.DATE, -1);
-		return calendar.getTime();
+		return getPreDay(date,1);
 	}
 	
 	/**
-	 * 获得前一天
+	 * 获得给定时间的前n天
 	 * @author 唐延波
 	 * @date 2015年7月25日
+	 * @param date
 	 * @return
 	 */
-	public static Date getPreDay() {
-		return getPreDay(new Date());
+	public static Date getPreDay(Date date,int n) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, -n);
+		return calendar.getTime();
 	}
 
 	/**
-	 * 获取后一天
+	 * 获取给定时间后n天
 	 * @author 唐延波
 	 * @date 2015年7月25日
 	 * @return
 	 */
-	public static Date getAfterDay(Date date) {
+	public static Date getAfterDay(Date date,int n) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		calendar.add(Calendar.DATE, 1);
+		calendar.add(Calendar.DATE, n);
 		return calendar.getTime();
 	}
 	
 	/**
-	 * 获取后一天
+	 * 获取给定时间后1天
 	 * @author 唐延波
 	 * @date 2015年7月25日
 	 * @return
 	 */
-	public static Date getAfterDay() {
-		return getAfterDay(new Date());
-	}
-	
-	public static void main(String[] args) {
-		Date preDay = getDayStartTime();
-		System.out.println(preDay);
+	public static Date getAfterDay(Date date){
+		return getAfterDay(date,1);
 	}
 }
